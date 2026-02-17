@@ -1,5 +1,5 @@
 import "../Styles/Technology.css";
-
+import HederaLogo from "../assets/hedera-logo.png"
 export default function Technology() {
     return (
         <div className="technology-page">
@@ -23,7 +23,9 @@ export default function Technology() {
 
                     <div className="tech-stack">
                         <div className="tech-item">
-                            <div className="tech-icon">⛓️</div>
+                            <div className="tech-icon">
+                                 <img src={HederaLogo} width="200" height="100" alt="hedera-logo" />
+                            </div>
                             <h3>Hedera Hashgraph</h3>
                             <p>High-performance blockchain platform for secure transactions with fast consensus and low fees</p>
                             <div className="tech-features">
@@ -34,7 +36,10 @@ export default function Technology() {
                         </div>
 
                         <div className="tech-item">
-                            <div className="tech-icon">🤖</div>
+                            <div className="tech-icon">
+                                <img width="48" height="48" src="https://img.icons8.com/fluency/48/external-link.png" alt="external-link"/>
+
+                            </div>
                             <h3>Selenium & Puppeteer</h3>
                             <p>Advanced automation tools for RDP connections and task execution with support for multiple browsers</p>
                             <div className="tech-features">
@@ -45,7 +50,9 @@ export default function Technology() {
                         </div>
 
                         <div className="tech-item">
-                            <div className="tech-icon">🔗</div>
+                            <div className="tech-icon">
+                                 <img width="48" height="48" src="https://img.icons8.com/flat-round/64/link--v1.png" alt="link--v1"/>
+                            </div>
                             <h3>Smart Contracts</h3>
                             <p>Automated contract execution with transparent verification using Solidity and Vyper</p>
                             <div className="tech-features">
@@ -56,7 +63,10 @@ export default function Technology() {
                         </div>
 
                         <div className="tech-item">
-                            <div className="tech-icon">📊</div>
+                            <div className="tech-icon">
+                                                                <img width="48" height="48" src="https://img.icons8.com/color/48/combo-chart--v1.png" alt="combo-chart--v1"/>
+
+                            </div>
                             <h3>Real-time Analytics</h3>
                             <p>Comprehensive monitoring and reporting dashboard with real-time data visualization</p>
                             <div className="tech-features">
@@ -67,7 +77,11 @@ export default function Technology() {
                         </div>
 
                         <div className="tech-item">
-                            <div className="tech-icon">⚡</div>
+                            <div className="tech-icon">
+                                {/* ⚡ */}
+                                <img width="50" height="50" src="https://img.icons8.com/isometric/50/lightning-bolt.png" alt="lightning-bolt"/>
+
+                            </div>
                             <h3>Fast RDP Connections</h3>
                             <p>High-speed remote desktop connections optimized for performance and reliability</p>
                             <div className="tech-features">
@@ -78,7 +92,10 @@ export default function Technology() {
                         </div>
 
                         <div className="tech-item">
-                            <div className="tech-icon">🔒</div>
+                            <div className="tech-icon">
+                                {/* 🔒 */}
+                                <img width="48" height="48" src="https://img.icons8.com/color/48/keyhole-shield.png" alt="keyhole-shield"/>
+                                </div>
                             <h3>Security Infrastructure</h3>
                             <p>Enterprise-grade security with encryption, multi-factor authentication, and threat detection</p>
                             <div className="tech-features">
@@ -98,22 +115,32 @@ export default function Technology() {
                                 <p>Responsive web interface with real-time updates</p>
                             </div>
                             <div className="diagram-component">
-                                <div className="component-icon">🔄</div>
+                                <div className="component-icon">
+                                    <img width="48" height="48" src="https://img.icons8.com/color/48/api.png" alt="api"/>
+                                </div>
                                 <h3>API Gateway</h3>
                                 <p>Centralized API management and authentication</p>
                             </div>
                             <div className="diagram-component">
-                                <div className="component-icon">⚙️</div>
+                                <div className="component-icon">
+                                    {/* <img width="48" height="48" src="https://img.icons8.com/color/48/code.png" alt="code"/> */}
+                                    <img width="48" height="48" src="https://img.icons8.com/color/48/connection-status-on--v1.png" alt="connection-status-on--v1"/>
+                                </div>
                                 <h3>Backend Services</h3>
                                 <p>Core business logic and task management</p>
                             </div>
                             <div className="diagram-component">
-                                <div className="component-icon">⛓️</div>
+                                <div className="component-icon">
+                                                                <img width="48" height="48" src="https://img.icons8.com/fluency/48/link.png" alt="link"/>
+
+                                </div>
                                 <h3>Blockchain Layer</h3>
                                 <p>Hedera Hashgraph integration for transactions</p>
                             </div>
                             <div className="diagram-component">
-                                <div className="component-icon">💾</div>
+                                <div className="component-icon">
+                                    <img width="48" height="48" src="https://img.icons8.com/color/48/storage.png" alt="storage"/>
+                                </div>
                                 <h3>Database</h3>
                                 <p>Distributed database for data storage</p>
                             </div>
@@ -124,22 +151,30 @@ export default function Technology() {
                         <h2>Technical Advantages</h2>
                         <div className="benefits-grid">
                             <div className="benefit-item">
-                                <div className="benefit-icon">🚀</div>
+                                <div className="benefit-icon">
+                                    <img width="48" height="48" src="https://img.icons8.com/color/48/circular-arrows--v1.png" alt="circular-arrows--v1"/>
+                                </div>
                                 <h3>Scalability</h3>
                                 <p>Handle thousands of concurrent users with ease</p>
                             </div>
                             <div className="benefit-item">
-                                <div className="benefit-icon">💪</div>
+                                <div className="benefit-icon">
+                                    <img width="48" height="48" src="https://img.icons8.com/color/48/bullish.png" alt="bullish"/>
+                                </div>
                                 <h3>Performance</h3>
                                 <p>Fast transaction processing with low latency</p>
                             </div>
                             <div className="benefit-item">
-                                <div className="benefit-icon">🎯</div>
+                                <div className="benefit-icon">
+                                    <img width="48" height="48" src="https://img.icons8.com/color/48/centre-of-gravity.png" alt="centre-of-gravity"/>
+                                </div>
                                 <h3>Reliability</h3>
                                 <p>High availability and fault tolerance</p>
                             </div>
                             <div className="benefit-item">
-                                <div className="benefit-icon">🛡️</div>
+                                <div className="benefit-icon">
+                                    <img width="48" height="48" src="https://img.icons8.com/color/48/security-checked--v1.png" alt="security-checked--v1"/>
+                                </div>
                                 <h3>Security</h3>
                                 <p>Advanced security measures to protect your data</p>
                             </div>
@@ -150,7 +185,7 @@ export default function Technology() {
 
             <footer className="technology-footer">
                 <div className="container">
-                    <p>&copy; 2024 OpenRent. All rights reserved.</p>
+                    <p>&copy; 2026 OpenRent. All rights reserved.</p>
                 </div>
             </footer>
         </div>

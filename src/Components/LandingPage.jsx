@@ -1,5 +1,6 @@
 import "../Styles/LandingPage.css";
 import {Link} from "react-router-dom";
+import HederaLogo from "../assets/hedera-logo.png"
 
 export default function LandingPage() {
     return (
@@ -8,7 +9,10 @@ export default function LandingPage() {
             <header className="header">
                 <nav className="nav">
                     <div className="nav-logo">
-                        <span className="logo-icon">⛓️</span>
+                        <span className="logo-icon">
+                            {/* <img width="48" height="48" src="https://img.icons8.com/fluency/48/link.png" alt="link"/> */}
+                            <img width="50" height="50" src="https://img.icons8.com/3d-fluency/94/link.png" alt="link"/>
+                        </span>
                         <span className="logo-text">OpenRent</span>
                     </div>
                     <ul className="nav-menu">
@@ -74,7 +78,7 @@ export default function LandingPage() {
                     </div>
                     <div className="services-grid">
                         <div className="service-card">
-                            <div className="service-icon">🔍</div>
+                            {/* <div className="service-icon">🔍</div> */}
                             <h3>Basic Tasks</h3>
                             <p>Simple automated tasks requiring basic AI capabilities</p>
                             <ul className="service-features">
@@ -87,7 +91,7 @@ export default function LandingPage() {
                         </div>
                         <div className="service-card featured">
                             <div className="featured-badge">Most Popular</div>
-                            <div className="service-icon">🤖</div>
+                            {/* <div className="service-icon">🤖</div> */}
                             <h3>Intermediate Tasks</h3>
                             <p>Complex tasks requiring advanced AI and human oversight</p>
                             <ul className="service-features">
@@ -99,7 +103,7 @@ export default function LandingPage() {
                             <div className="service-price">$4.99/hour</div>
                         </div>
                         <div className="service-card">
-                            <div className="service-icon">🚀</div>
+                            {/* <div className="service-icon">🚀</div> */}
                             <h3>Advanced Tasks</h3>
                             <p>Expert-level tasks requiring specialized knowledge and skills</p>
                             <ul className="service-features">
@@ -123,17 +127,25 @@ export default function LandingPage() {
                     </div>
                     <div className="features-grid">
                         <div className="feature-item">
-                            <div className="feature-icon">🔒</div>
+                            <div className="feature-icon">
+                                                                <img width="48" height="48" src="https://img.icons8.com/color/48/keyhole-shield.png" alt="keyhole-shield"/>
+
+                            </div>
                             <h3>Secure & Transparent</h3>
                             <p>All transactions are recorded on the Hedera Hashgraph blockchain for maximum security and transparency</p>
                         </div>
                         <div className="feature-item">
-                            <div className="feature-icon">⚡</div>
+                            <div className="feature-icon">
+                                        <img width="50" height="50" src="https://img.icons8.com/isometric/50/lightning-bolt.png" alt="lightning-bolt"/>
+
+                            </div>
                             <h3>Fast & Efficient</h3>
                             <p>High-speed RDP connections powered by Selenium and Puppeteer for optimal performance</p>
                         </div>
                         <div className="feature-item">
-                            <div className="feature-icon">💰</div>
+                            <div className="feature-icon">
+                                <img width="48" height="48" src="https://img.icons8.com/color/48/exchange.png" alt="exchange"/>
+                            </div>
                             <h3>Cost Effective</h3>
                             <p>Pay only for the resources you use with our flexible hourly pricing model</p>
                         </div>
@@ -143,12 +155,17 @@ export default function LandingPage() {
                             <p>Access our services from anywhere in the world with our decentralized platform</p>
                         </div>
                         <div className="feature-item">
-                            <div className="feature-icon">🔄</div>
+                            <div className="feature-icon">
+                                                                    <img width="48" height="48" src="https://img.icons8.com/color/48/connection-status-on--v1.png" alt="connection-status-on--v1"/>
+
+                            </div>
                             <h3>Real-time Monitoring</h3>
                             <p>Track your tasks in real-time with our comprehensive monitoring dashboard</p>
                         </div>
                         <div className="feature-item">
-                            <div className="feature-icon">🛡️</div>
+                            <div className="feature-icon">
+                                <img width="48" height="48" src="https://img.icons8.com/color/48/blockchain-technology.png" alt="blockchain-technology"/>
+                            </div>
                             <h3>Smart Contracts</h3>
                             <p>Automated task verification and payment processing using smart contracts</p>
                         </div>
@@ -165,22 +182,32 @@ export default function LandingPage() {
                     </div>
                     <div className="tech-stack">
                         <div className="tech-item">
-                            <div className="tech-icon">⛓️</div>
+                            <div className="tech-icon">
+                                {/* <img width="48" height="48" src="https://img.icons8.com/fluency/48/link.png" alt="link"/> */}
+                                <img src={HederaLogo} width="200" height="100" alt="hedera-logo" />
+                            </div>
                             <h3>Hedera Hashgraph</h3>
                             <p>High-performance blockchain platform for secure transactions</p>
                         </div>
                         <div className="tech-item">
-                            <div className="tech-icon">🤖</div>
+                            <div className="tech-icon">
+                                <img width="48" height="48" src="https://img.icons8.com/fluency/48/external-link.png" alt="external-link"/>
+                            </div>
                             <h3>Selenium & Puppeteer</h3>
                             <p>Advanced automation tools for RDP connections and task execution</p>
                         </div>
                         <div className="tech-item">
-                            <div className="tech-icon">🔗</div>
+                            <div className="tech-icon">
+                                {/* <img width="48" height="48" src="https://img.icons8.com/fluency-systems-filled/48/link.png" alt="link"/> */}
+                                <img width="48" height="48" src="https://img.icons8.com/flat-round/64/link--v1.png" alt="link--v1"/>
+                            </div>
                             <h3>Smart Contracts</h3>
                             <p>Automated contract execution with transparent verification</p>
                         </div>
                         <div className="tech-item">
-                            <div className="tech-icon">📊</div>
+                            <div className="tech-icon">
+                                <img width="48" height="48" src="https://img.icons8.com/color/48/combo-chart--v1.png" alt="combo-chart--v1"/>
+                            </div>
                             <h3>Real-time Analytics</h3>
                             <p>Comprehensive monitoring and reporting dashboard</p>
                         </div>
@@ -262,7 +289,9 @@ export default function LandingPage() {
                     <div className="footer-content">
                         <div className="footer-column">
                             <div className="nav-logo">
-                                <span className="logo-icon">⛓️</span>
+                                <span className="logo-icon">
+                                     <img width="50" height="50" src="https://img.icons8.com/3d-fluency/94/link.png" alt="link"/>
+                                </span>
                                 <span className="logo-text">OpenRent</span>
                             </div>
                             <p>Decentralized rent services powered by Hedera Hashgraph</p>
@@ -295,7 +324,7 @@ export default function LandingPage() {
                         </div>
                     </div>
                     <div className="footer-bottom">
-                        <p>&copy; 2024 OpenRent. All rights reserved.</p>
+                        <p>&copy; 2026 OpenRent. All rights reserved.</p>
                     </div>
                 </div>
             </footer>
