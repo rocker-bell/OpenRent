@@ -54,7 +54,7 @@ export default function Contact() {
                                 </div>
                             </div>
 
-                            <div className="social-links">
+                            {/* <div className="social-links">
                                 <h3>Follow Us</h3>
                                 <div className="social-icons">
                                     <a href="#" className="social-icon">🐦</a>
@@ -63,7 +63,7 @@ export default function Contact() {
                                     <a href="#" className="social-icon">👥</a>
                                     <a href="#" className="social-icon">📹</a>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
 
                         <div className="contact-form-section">
@@ -100,7 +100,7 @@ export default function Contact() {
 
             <footer className="contact-footer">
                 <div className="container">
-                    <p>&copy; 2024 OpenRent. All rights reserved.</p>
+                    <p>&copy; 2026 OpenRent. All rights reserved.</p>
                 </div>
             </footer>
         </div>

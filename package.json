@@ -12,6 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "alert-handler-lite": "file:../alert-test",
     "gh-pages": "^6.3.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

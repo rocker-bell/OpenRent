@@ -3,7 +3,7 @@ import LandingPage from "./Components/LandingPage";
 import GetStarted from "./Components/GetStarted";
 import AboutUs from "./Components/AboutUs";
 import Blog from "./Components/Blog";
-import Careers from "./Components/Careers";
+// import Careers from "./Components/Careers";
 import Contact from "./Components/Contact";
 import Privacy from "./Components/Privacy";
 import Terms from "./Components/Terms";
@@ -12,16 +12,18 @@ import Services from "./Components/Services";
 import Features from "./Components/Features";
 import Technology from "./Components/Technology";
 import Pricing from "./Components/Pricing";
-
+import { ToastContainer, toast } from 'alert-handler-lite';
+import 'alert-handler-lite/dist/index.css';
 const App = () => {
   return (
     <>
+      <ToastContainer  />
         <Routes>
             <Route path="/" element={<LandingPage/>}/>
             <Route path="/get-started" element={<GetStarted/>}/>
             <Route path="/about" element={<AboutUs/>}/>
             <Route path="/blog" element={<Blog/>}/>
-            <Route path="/careers" element={<Careers/>}/>
+            {/* <Route path="/careers" element={<Careers/>}/> */}
             <Route path="/contact" element={<Contact/>}/>
             <Route path="/privacy" element={<Privacy/>}/>
             <Route path="/terms" element={<Terms/>}/>

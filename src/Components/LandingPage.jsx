@@ -310,7 +310,7 @@ export default function LandingPage() {
                             <ul>
                                 <li><Link to="/about">About Us</Link></li>
                                 <li><Link to="/blog">Blog</Link></li>
-                                <li><Link to="/careers">Careers</Link></li>
+                                {/* <li><Link to="/careers">Careers</Link></li> */}
                                 <li><Link to="/contact">Contact</Link></li>
                             </ul>
                         </div>

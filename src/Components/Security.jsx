@@ -24,49 +24,70 @@ export default function Security() {
 
                         <div className="security-features">
                             <div className="feature-item">
-                                <div className="feature-icon">⛓️</div>
+                                <div className="feature-icon">
+                                                                    <img width="48" height="48" src="https://img.icons8.com/color/48/blockchain-technology.png" alt="blockchain-technology"/>
+
+                                </div>
                                 <h3>Blockchain Technology</h3>
                                 <p>All transactions are recorded on the Hedera Hashgraph blockchain for maximum security and transparency</p>
                             </div>
 
                             <div className="feature-item">
-                                <div className="feature-icon">🔒</div>
+                                <div className="feature-icon">
+                                    <img width="66" height="66" src="https://img.icons8.com/external-smashingstocks-outline-color-smashing-stocks/66/external-encryption-networking-smashingstocks-outline-color-smashing-stocks.png" alt="external-encryption-networking-smashingstocks-outline-color-smashing-stocks"/>
+                                </div>
                                 <h3>Encryption</h3>
                                 <p>Your data is encrypted both in transit and at rest using industry-standard encryption protocols</p>
                             </div>
 
                             <div className="feature-item">
-                                <div className="feature-icon">🛡️</div>
+                                <div className="feature-icon">
+                                                                    <img width="48" height="48" src="https://img.icons8.com/flat-round/64/link--v1.png" alt="link--v1"/>
+
+                                </div>
                                 <h3>Smart Contracts</h3>
                                 <p>Automated task verification and payment processing using smart contracts</p>
                             </div>
 
                             <div className="feature-item">
-                                <div className="feature-icon">🔐</div>
+                                <div className="feature-icon">
+                                                                                                    <img width="48" height="48" src="https://img.icons8.com/color/48/keyhole-shield.png" alt="keyhole-shield"/>
+
+                                </div>
                                 <h3>Multi-Factor Authentication</h3>
                                 <p>Enhanced security through multi-factor authentication for all user accounts</p>
                             </div>
 
                             <div className="feature-item">
-                                <div className="feature-icon">📊</div>
+                                <div className="feature-icon">
+                                                                    <img width="48" height="48" src="https://img.icons8.com/color/48/combo-chart--v1.png" alt="combo-chart--v1"/>
+
+                                </div>
                                 <h3>Real-time Monitoring</h3>
                                 <p>Continuous monitoring of our platform for suspicious activity and threats</p>
                             </div>
 
                             <div className="feature-item">
-                                <div className="feature-icon">🔄</div>
+                                <div className="feature-icon">
+                                                                                                        <img width="48" height="48" src="https://img.icons8.com/color/48/connection-status-on--v1.png" alt="connection-status-on--v1"/>
+
+                                </div>
                                 <h3>Regular Audits</h3>
                                 <p>Periodic security audits to identify and address vulnerabilities</p>
                             </div>
 
                             <div className="feature-item">
-                                <div className="feature-icon">🚫</div>
+                                <div className="feature-icon">
+                                    <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/spyware-free.png" alt="spyware-free"/>
+                                </div>
                                 <h3>Fraud Detection</h3>
                                 <p>Advanced fraud detection algorithms to prevent and detect fraudulent activities</p>
                             </div>
 
                             <div className="feature-item">
-                                <div className="feature-icon">📄</div>
+                                <div className="feature-icon">
+                                    <img width="64" height="64" src="https://img.icons8.com/dusk/64/approval--v1.png" alt="approval--v1"/>
+                                </div>
                                 <h3>Compliance</h3>
                                 <p>Adherence to industry standards and regulatory requirements for data protection</p>
                             </div>
@@ -77,7 +98,7 @@ export default function Security() {
                             <div className="measures-grid">
                                 <div className="measure-item">
                                     <div className="measure-header">
-                                        <div className="measure-icon">🔑</div>
+                                        {/* <div className="measure-icon">🔑</div> */}
                                         <h3>Account Security</h3>
                                     </div>
                                     <p>Strong password requirements, multi-factor authentication, and secure login processes</p>
@@ -85,7 +106,7 @@ export default function Security() {
 
                                 <div className="measure-item">
                                     <div className="measure-header">
-                                        <div className="measure-icon">💳</div>
+                                        {/* <div className="measure-icon">💳</div> */}
                                         <h3>Payment Security</h3>
                                     </div>
                                     <p>Secure payment processing through blockchain technology and encrypted transactions</p>
@@ -93,7 +114,7 @@ export default function Security() {
 
                                 <div className="measure-item">
                                     <div className="measure-header">
-                                        <div className="measure-icon">📱</div>
+                                        {/* <div className="measure-icon">📱</div> */}
                                         <h3>Data Protection</h3>
                                     </div>
                                     <p>Strict data protection measures in compliance with privacy regulations</p>
@@ -105,7 +126,9 @@ export default function Security() {
                             <h2>Your Security Responsibilities</h2>
                             <div className="practices-list">
                                 <div className="practice-item">
-                                    <div className="practice-icon">✅</div>
+                                    <div className="practice-icon">
+                                        <img width="48" height="48" src="https://img.icons8.com/pulsar-gradient/48/verified-badge.png" alt="verified-badge"/>
+                                    </div>
                                     <div className="practice-content">
                                         <h3>Use Strong Passwords</h3>
                                         <p>Create unique, complex passwords and update them regularly</p>
@@ -113,7 +136,9 @@ export default function Security() {
                                 </div>
 
                                 <div className="practice-item">
-                                    <div className="practice-icon">✅</div>
+                                    <div className="practice-icon">
+                                        <img width="48" height="48" src="https://img.icons8.com/pulsar-gradient/48/verified-badge.png" alt="verified-badge"/>
+                                    </div>
                                     <div className="practice-content">
                                         <h3>Enable Multi-Factor Authentication</h3>
                                         <p>Add an extra layer of security to your account</p>
@@ -121,7 +146,9 @@ export default function Security() {
                                 </div>
 
                                 <div className="practice-item">
-                                    <div className="practice-icon">✅</div>
+                                    <div className="practice-icon">
+                                        <img width="48" height="48" src="https://img.icons8.com/pulsar-gradient/48/verified-badge.png" alt="verified-badge"/>
+                                    </div>
                                     <div className="practice-content">
                                         <h3>Be Wary of Phishing</h3>
                                         <p>Never share your login credentials or personal information through email or unsolicited messages</p>
@@ -129,7 +156,9 @@ export default function Security() {
                                 </div>
 
                                 <div className="practice-item">
-                                    <div className="practice-icon">✅</div>
+                                    <div className="practice-icon">
+                                        <img width="48" height="48" src="https://img.icons8.com/pulsar-gradient/48/verified-badge.png" alt="verified-badge"/>
+                                    </div>
                                     <div className="practice-content">
                                         <h3>Keep Software Updated</h3>
                                         <p>Ensure your devices and browsers are up to date with the latest security patches</p>
@@ -137,7 +166,9 @@ export default function Security() {
                                 </div>
 
                                 <div className="practice-item">
-                                    <div className="practice-icon">✅</div>
+                                    <div className="practice-icon">
+                                        <img width="48" height="48" src="https://img.icons8.com/pulsar-gradient/48/verified-badge.png" alt="verified-badge"/>
+                                    </div>
                                     <div className="practice-content">
                                         <h3>Monitor Your Account</h3>
                                         <p>Regularly review your account activity and report any suspicious transactions</p>
@@ -170,7 +201,7 @@ export default function Security() {
 
             <footer className="security-footer">
                 <div className="container">
-                    <p>&copy; 2024 OpenRent. All rights reserved.</p>
+                    <p>&copy; 2026 OpenRent. All rights reserved.</p>
                 </div>
             </footer>
         </div>

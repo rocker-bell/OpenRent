@@ -14,7 +14,7 @@ export default function Services() {
                 <div className="container">
                     <div className="services-grid">
                         <div className="service-card">
-                            <div className="service-icon">🔍</div>
+                            {/* <div className="service-icon">🔍</div> */}
                             <h3>Basic Tasks</h3>
                             <p>Simple automated tasks requiring basic AI capabilities</p>
                             <ul className="service-features">
@@ -27,7 +27,7 @@ export default function Services() {
                         </div>
                         <div className="service-card featured">
                             <div className="featured-badge">Most Popular</div>
-                            <div className="service-icon">🤖</div>
+                            {/* <div className="service-icon">🤖</div> */}
                             <h3>Intermediate Tasks</h3>
                             <p>Complex tasks requiring advanced AI and human oversight</p>
                             <ul className="service-features">
@@ -39,7 +39,7 @@ export default function Services() {
                             <div className="service-price">$4.99/hour</div>
                         </div>
                         <div className="service-card">
-                            <div className="service-icon">🚀</div>
+                            {/* <div className="service-icon">🚀</div> */}
                             <h3>Advanced Tasks</h3>
                             <p>Expert-level tasks requiring specialized knowledge and skills</p>
                             <ul className="service-features">

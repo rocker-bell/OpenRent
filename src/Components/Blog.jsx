@@ -16,7 +16,7 @@ export default function Blog() {
                         <article className="blog-post">
                             <div className="post-image">
                                 <div className="placeholder-image">
-                                    <span className="image-icon">🤖</span>
+                                    {/* <span className="image-icon"></span> */}
                                 </div>
                             </div>
                             <div className="post-content">
@@ -36,7 +36,7 @@ export default function Blog() {
                         <article className="blog-post">
                             <div className="post-image">
                                 <div className="placeholder-image">
-                                    <span className="image-icon">⛓️</span>
+                                    {/* <span className="image-icon">⛓️</span> */}
                                 </div>
                             </div>
                             <div className="post-content">
@@ -56,7 +56,7 @@ export default function Blog() {
                         <article className="blog-post">
                             <div className="post-image">
                                 <div className="placeholder-image">
-                                    <span className="image-icon">💰</span>
+                                    {/* <span className="image-icon">💰</span> */}
                                 </div>
                             </div>
                             <div className="post-content">
@@ -76,7 +76,7 @@ export default function Blog() {
                         <article className="blog-post">
                             <div className="post-image">
                                 <div className="placeholder-image">
-                                    <span className="image-icon">🔒</span>
+                                    {/* <span className="image-icon">🔒</span> */}
                                 </div>
                             </div>
                             <div className="post-content">
@@ -96,7 +96,7 @@ export default function Blog() {
                         <article className="blog-post">
                             <div className="post-image">
                                 <div className="placeholder-image">
-                                    <span className="image-icon">⚡</span>
+                                    {/* <span className="image-icon">⚡</span> */}
                                 </div>
                             </div>
                             <div className="post-content">
@@ -116,7 +116,7 @@ export default function Blog() {
                         <article className="blog-post">
                             <div className="post-image">
                                 <div className="placeholder-image">
-                                    <span className="image-icon">🌐</span>
+                                    {/* <span className="image-icon">🌐</span> */}
                                 </div>
                             </div>
                             <div className="post-content">
@@ -146,7 +146,7 @@ export default function Blog() {
 
             <footer className="blog-footer">
                 <div className="container">
-                    <p>&copy; 2024 OpenRent. All rights reserved.</p>
+                    <p>&copy; 2026 OpenRent. All rights reserved.</p>
                 </div>
             </footer>
         </div>

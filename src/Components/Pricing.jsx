@@ -61,22 +61,22 @@ export default function Pricing() {
                         <h2>Why Choose OpenRent?</h2>
                         <div className="info-grid">
                             <div className="info-item">
-                                <div className="info-icon">💰</div>
+                                {/* <div className="info-icon">💰</div> */}
                                 <h3>Pay As You Go</h3>
                                 <p>Only pay for the resources you use with our hourly pricing model</p>
                             </div>
                             <div className="info-item">
-                                <div className="info-icon">⏱️</div>
+                                {/* <div className="info-icon">⏱️</div> */}
                                 <h3>Instant Access</h3>
                                 <p>Get started immediately with our fast and efficient platform</p>
                             </div>
                             <div className="info-item">
-                                <div className="info-icon">🔄</div>
+                                {/* <div className="info-icon">🔄</div> */}
                                 <h3>Flexible Plans</h3>
                                 <p>Upgrade or downgrade your plan at any time without penalties</p>
                             </div>
                             <div className="info-item">
-                                <div className="info-icon">🛡️</div>
+                                {/* <div className="info-icon">🛡️</div> */}
                                 <h3>Secure Transactions</h3>
                                 <p>All payments are processed through blockchain for maximum security</p>
                             </div>

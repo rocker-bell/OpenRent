@@ -126,7 +126,7 @@ export default function Careers() {
 
             <footer className="careers-footer">
                 <div className="container">
-                    <p>&copy; 2024 OpenRent. All rights reserved.</p>
+                    <p>&copy; 2026 OpenRent. All rights reserved.</p>
                 </div>
             </footer>
         </div>

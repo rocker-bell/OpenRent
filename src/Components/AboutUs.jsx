@@ -15,7 +15,10 @@ export default function AboutUs() {
                     <div className="content-grid">
                         <div className="content-image">
                             <div className="placeholder-image">
-                                <span className="image-icon">⛓️</span>
+                                <span className="image-icon">
+                                                                <img width="100" height="100" src="https://img.icons8.com/3d-fluency/94/link.png" alt="link"/>
+
+                                </span>
                             </div>
                         </div>
                         <div className="content-text">
@@ -57,11 +60,11 @@ export default function AboutUs() {
                     <div className="team-grid">
                         <div className="team-member">
                             <div className="member-avatar">👨‍💼</div>
-                            <h3>John Doe</h3>
+                            <h3>Anass Tantane</h3>
                             <p className="member-role">CEO & Founder</p>
-                            <p className="member-bio">Blockchain enthusiast with 10+ years of experience in distributed systems</p>
+                            <p className="member-bio">Blockchain enthusiast with 3+ years of experience in distributed systems</p>
                         </div>
-                        <div className="team-member">
+                        {/* <div className="team-member">
                             <div className="member-avatar">👩‍💻</div>
                             <h3>Jane Smith</h3>
                             <p className="member-role">CTO</p>
@@ -78,7 +81,7 @@ export default function AboutUs() {
                             <h3>Sarah Williams</h3>
                             <p className="member-role">Design Director</p>
                             <p className="member-bio">User experience designer passionate about creating intuitive platforms</p>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </section>
@@ -91,12 +94,18 @@ export default function AboutUs() {
                     </div>
                     <div className="values-grid">
                         <div className="value-item">
-                            <div className="value-icon">🔒</div>
+                            <div className="value-icon">
+                                                                                                <img width="48" height="48" src="https://img.icons8.com/color/48/keyhole-shield.png" alt="keyhole-shield"/>
+
+                            </div>
                             <h3>Security</h3>
                             <p>Your data and transactions are protected with cutting-edge blockchain technology</p>
                         </div>
                         <div className="value-item">
-                            <div className="value-icon">⚡</div>
+                            <div className="value-icon">
+                                                                <img width="50" height="50" src="https://img.icons8.com/isometric/50/lightning-bolt.png" alt="lightning-bolt"/>
+
+                            </div>
                             <h3>Efficiency</h3>
                             <p>Fast, reliable, and cost-effective solutions for your tasks</p>
                         </div>
@@ -106,7 +115,10 @@ export default function AboutUs() {
                             <p>Democratizing access to AI and human expertise worldwide</p>
                         </div>
                         <div className="value-item">
-                            <div className="value-icon">🛡️</div>
+                            <div className="value-icon">
+                                                                                                    <img width="48" height="48" src="https://img.icons8.com/color/48/connection-status-on--v1.png" alt="connection-status-on--v1"/>
+
+                            </div>
                             <h3>Transparency</h3>
                             <p>Every transaction is recorded on the blockchain for complete visibility</p>
                         </div>
@@ -116,7 +128,7 @@ export default function AboutUs() {
 
             <footer className="about-footer">
                 <div className="container">
-                    <p>&copy; 2024 OpenRent. All rights reserved.</p>
+                    <p>&copy; 2026 OpenRent. All rights reserved.</p>
                 </div>
             </footer>
         </div>
