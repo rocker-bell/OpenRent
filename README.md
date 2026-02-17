@@ -1,16 +1,61 @@
-# React + Vite
+#  OpenRent
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**OpenRent** is a modern platform that allows users to rent either a human expert or an AI agent to perform tasks — from basic assistance to advanced technical work.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+##  Live Demo
 
-## React Compiler
+🔗 https://rocker-bell.github.io/OpenRent/
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+##  Concept
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+OpenRent bridges the gap between **human expertise** and **AI capabilities** by offering on-demand task execution.
+
+Users can:
+- Rent a human professional
+- Rent an AI-powered assistant
+- Delegate tasks from simple to complex
+- Track progress and outcomes
+
+---
+
+##  What Can Be Rented?
+
+### 🔹 Basic Tasks
+- Data entry
+- Research
+- Content formatting
+- Scheduling
+- Simple troubleshooting
+
+### 🔹 Intermediate Tasks
+- Web design
+- Technical writing
+- Automation setup
+- Data analysis
+- Marketing strategy
+
+### 🔹 Advanced Tasks
+- Full-stack development
+- AI model integration
+- System architecture
+- DevOps automation
+- Business process optimization
+
+---
+
+## ⚙️ Tech Stack
+
+- **React 19**
+- **Vite**
+- **React Router**
+- **GitHub Pages Deployment**
+- Modern ES Modules
+
+---
+
+##  Project Structure
+
