@@ -78,6 +78,15 @@
     display: inline-block;
 }
 
+.btn-primary a, .btn-secondary a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.btn-primary:hover a, .btn-secondary:hover a {
+    color: inherit;
+}
+
 .btn-primary {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;

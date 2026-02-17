@@ -1,0 +1,227 @@
+.technology-page {
+    min-width: 100%;
+    min-height: 100%; 
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.technology-header {
+    padding: 80px 0 40px;
+    text-align: center;
+    color: white;
+}
+
+.technology-header h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.technology-header p {
+    font-size: 1.3rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.technology-content {
+    padding: 60px 0;
+    background: white;
+}
+
+.tech-overview {
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+.tech-overview h2 {
+    font-size: 2.5rem;
+    color: #2d3748;
+    margin-bottom: 24px;
+}
+
+.tech-overview p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #4a5568;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.tech-stack {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.tech-item {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.tech-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    border-color: #667eea;
+}
+
+.tech-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.tech-item h3 {
+    font-size: 1.5rem;
+    color: #2d3748;
+    margin-bottom: 16px;
+}
+
+.tech-item > p {
+    color: #718096;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.tech-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.feature-tag {
+    padding: 5px 12px;
+    background: #f7fafc;
+    color: #667eea;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.architecture-section {
+    margin-bottom: 60px;
+}
+
+.architecture-section h2 {
+    font-size: 2.5rem;
+    color: #2d3748;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.architecture-diagram {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.diagram-component {
+    text-align: center;
+    padding: 30px;
+    background: #f7fafc;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+    position: relative;
+}
+
+.diagram-component:hover {
+    transform: translateY(-5px);
+}
+
+.component-icon {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+}
+
+.diagram-component h3 {
+    font-size: 1.2rem;
+    color: #2d3748;
+    margin-bottom: 12px;
+}
+
+.diagram-component p {
+    color: #718096;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.benefits-section {
+    margin-bottom: 60px;
+}
+
+.benefits-section h2 {
+    font-size: 2.5rem;
+    color: #2d3748;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.benefit-item {
+    text-align: center;
+    padding: 30px;
+    background: #f7fafc;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+}
+
+.benefit-item:hover {
+    transform: translateY(-5px);
+}
+
+.benefit-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+}
+
+.benefit-item h3 {
+    font-size: 1.3rem;
+    color: #2d3748;
+    margin-bottom: 12px;
+}
+
+.benefit-item p {
+    color: #718096;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.technology-footer {
+    padding: 40px 0;
+    background: #2d3748;
+    color: white;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .tech-stack {
+        grid-template-columns: 1fr;
+    }
+    
+    .architecture-diagram {
+        grid-template-columns: 1fr;
+    }
+    
+    .benefits-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .technology-header h1 {
+        font-size: 2.5rem;
+    }
+    
+    .tech-overview h2,
+    .architecture-section h2,
+    .benefits-section h2 {
+        font-size: 2rem;
+    }
+}

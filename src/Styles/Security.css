@@ -1,0 +1,259 @@
+.security {
+     min-width: 100%;
+    min-height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.security-header {
+    padding: 80px 0 40px;
+    text-align: center;
+    color: white;
+}
+
+.security-header h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.security-header p {
+    font-size: 1.3rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.security-content {
+    padding: 60px 0;
+    background: white;
+}
+
+.intro-section {
+    margin-bottom: 60px;
+}
+
+.intro-section h2 {
+    font-size: 2.5rem;
+    color: #2d3748;
+    margin-bottom: 24px;
+}
+
+.intro-section p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #4a5568;
+}
+
+.security-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.feature-item {
+    text-align: center;
+    padding: 30px;
+    background: #f7fafc;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+}
+
+.feature-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+}
+
+.feature-item h3 {
+    font-size: 1.3rem;
+    color: #2d3748;
+    margin-bottom: 12px;
+}
+
+.feature-item p {
+    font-size: 0.95rem;
+    color: #718096;
+    line-height: 1.6;
+}
+
+.security-measures {
+    margin-bottom: 60px;
+}
+
+.security-measures h2 {
+    font-size: 2.5rem;
+    color: #2d3748;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.measures-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.measure-item {
+    padding: 30px;
+    background: #f7fafc;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+}
+
+.measure-item:hover {
+    transform: translateY(-5px);
+}
+
+.measure-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.measure-icon {
+    font-size: 2rem;
+}
+
+.measure-header h3 {
+    font-size: 1.3rem;
+    color: #2d3748;
+}
+
+.measure-item p {
+    color: #718096;
+    line-height: 1.6;
+}
+
+.best-practices {
+    margin-bottom: 60px;
+}
+
+.best-practices h2 {
+    font-size: 2.5rem;
+    color: #2d3748;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.practices-list {
+    display: grid;
+    gap: 20px;
+}
+
+.practice-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+    background: #f7fafc;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+}
+
+.practice-item:hover {
+    transform: translateX(5px);
+}
+
+.practice-icon {
+    font-size: 1.5rem;
+    margin-top: 5px;
+}
+
+.practice-content h3 {
+    font-size: 1.2rem;
+    color: #2d3748;
+    margin-bottom: 8px;
+}
+
+.practice-content p {
+    color: #718096;
+    line-height: 1.6;
+}
+
+.contact-section {
+    display: flex;
+    justify-content: center;
+}
+
+.contact-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 600px;
+    text-align: center;
+}
+
+.contact-card h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.contact-card > p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+.contact-methods {
+    display: flex;
+    justify-content: center;
+}
+
+.contact-method {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.method-icon {
+    font-size: 2rem;
+}
+
+.method-details h3 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+}
+
+.method-details p {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+.security-footer {
+    padding: 40px 0;
+    background: #2d3748;
+    color: white;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .security-features {
+        grid-template-columns: 1fr;
+    }
+    
+    .measures-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .security-header h1 {
+        font-size: 2.5rem;
+    }
+    
+    .intro-section h2,
+    .security-measures h2,
+    .best-practices h2 {
+        font-size: 2rem;
+    }
+    
+    .contact-card {
+        padding: 30px 20px;
+    }
+}

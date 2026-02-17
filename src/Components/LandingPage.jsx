@@ -1,4 +1,5 @@
 import "../Styles/LandingPage.css";
+import {Link} from "react-router-dom";
 
 export default function LandingPage() {
     return (
@@ -11,13 +12,13 @@ export default function LandingPage() {
                         <span className="logo-text">OpenRent</span>
                     </div>
                     <ul className="nav-menu">
-                        <li><a href="#services">Services</a></li>
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#technology">Technology</a></li>
-                        <li><a href="#pricing">Pricing</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li><Link to="/services">Services</Link></li>
+                        <li><Link to="/features">Features</Link></li>
+                        <li><Link to="/technology">Technology</Link></li>
+                        <li><Link to="/pricing">Pricing</Link></li>
+                        <li><Link to="/contact">Contact</Link></li>
                     </ul>
-                    <button className="btn-primary">Get Started</button>
+                    <Link to="/get-started" className="btn-primary">Get Started</Link>
                 </nav>
             </header>
 
@@ -34,7 +35,7 @@ export default function LandingPage() {
                             Secure, transparent, and efficient RDP connections powered by Selenium and Puppeteer.
                         </p>
                         <div className="hero-actions">
-                            <button className="btn-primary btn-large">Start Renting Now</button>
+                            <Link to="/get-started" className="btn-primary btn-large">Start Renting Now</Link>
                             <button className="btn-secondary btn-large">Learn More</button>
                         </div>
                         <div className="hero-stats">
@@ -248,7 +249,7 @@ export default function LandingPage() {
                         <h2>Ready to Start Your Rental Journey?</h2>
                         <p>Join thousands of users who are already leveraging our decentralized rent services</p>
                         <div className="cta-actions">
-                            <button className="btn-primary btn-large">Get Started Free</button>
+                            <Link to="/get-started" className="btn-primary btn-large">Get Started Free</Link>
                             <button className="btn-secondary btn-large">Schedule a Demo</button>
                         </div>
                     </div>
@@ -269,27 +270,27 @@ export default function LandingPage() {
                         <div className="footer-column">
                             <h4>Product</h4>
                             <ul>
-                                <li><a href="#services">Services</a></li>
-                                <li><a href="#features">Features</a></li>
-                                <li><a href="#pricing">Pricing</a></li>
-                                <li><a href="#technology">Technology</a></li>
+                                <li><Link to="/services">Services</Link></li>
+                                <li><Link to="/features">Features</Link></li>
+                                <li><Link to="/pricing">Pricing</Link></li>
+                                <li><Link to="/technology">Technology</Link></li>
                             </ul>
                         </div>
                         <div className="footer-column">
                             <h4>Company</h4>
                             <ul>
-                                <li><a href="#about">About Us</a></li>
-                                <li><a href="#blog">Blog</a></li>
-                                <li><a href="#careers">Careers</a></li>
-                                <li><a href="#contact">Contact</a></li>
+                                <li><Link to="/about">About Us</Link></li>
+                                <li><Link to="/blog">Blog</Link></li>
+                                <li><Link to="/careers">Careers</Link></li>
+                                <li><Link to="/contact">Contact</Link></li>
                             </ul>
                         </div>
                         <div className="footer-column">
                             <h4>Legal</h4>
                             <ul>
-                                <li><a href="#privacy">Privacy Policy</a></li>
-                                <li><a href="#terms">Terms of Service</a></li>
-                                <li><a href="#security">Security</a></li>
+                                <li><Link to="/privacy">Privacy Policy</Link></li>
+                                <li><Link to="/terms">Terms of Service</Link></li>
+                                <li><Link to="/security">Security</Link></li>
                             </ul>
                         </div>
                     </div>
