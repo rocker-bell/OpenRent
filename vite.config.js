@@ -4,5 +4,5 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/openrent/'  // <<< required for GitHub Pages
+  base: '/OpenRent/'  
 })
