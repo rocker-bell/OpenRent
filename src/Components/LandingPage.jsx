@@ -22,7 +22,7 @@ export default function LandingPage() {
                         <li><Link to="/pricing">Pricing</Link></li>
                         <li><Link to="/contact">Contact</Link></li>
                     </ul>
-                    <Link to="/get-started" className="btn-primary">Get Started</Link>
+                    <Link to="/Demo" className="btn-primary">Get Started</Link>
                 </nav>
             </header>
 
