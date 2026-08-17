@@ -1,209 +1,103 @@
-import "../Styles/Security.css";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import '../Styles/Security.css';
 
 export default function Security() {
-    return (
-        <div className="security">
-            <header className="security-header">
-                <div className="container">
-                    <h1>Security</h1>
-                    <p>Protecting your data and transactions</p>
-                </div>
-            </header>
+  const securityPillars = [
+    {
+      icon: '🔐',
+      title: 'Client-Side Cryptographic Hashing',
+      desc: 'User credentials undergo SHA-256 cryptographic hashing in the browser before any smart contract interaction, guaranteeing passwords are never transmitted or stored in plaintext on-chain.',
+    },
+    {
+      icon: '🛡️',
+      title: 'Smart Contract Non-Reentrancy',
+      desc: 'Our Solidity escrow and registry contracts implement industry-standard OpenZeppelin guards, strictly preventing reentrancy attacks, front-running, and unauthorized token transfers.',
+    },
+    {
+      icon: '📦',
+      title: 'Ephemeral Sandbox Isolation',
+      desc: 'Each automated Selenium or Puppeteer execution node runs in an isolated container with memory caps, ephemeral disk wiping upon task completion, and zero persistent storage of confidential payload data.',
+    },
+    {
+      icon: '🌐',
+      title: 'Hedera aBFT Consensus Security',
+      desc: 'Settlement is protected by asynchronous Byzantine Fault Tolerance (aBFT), the gold standard in distributed ledger security, mathematically immune to DDoS attacks and chain re-organizations.',
+    },
+  ];
 
-            <section className="security-content">
-                <div className="container">
-                    <div className="content-grid">
-                        <div className="intro-section">
-                            <h2>Our Commitment to Security</h2>
-                            <p>
-                                At OpenRent, we take security seriously. Our decentralized platform 
-                                is built on cutting-edge technology to ensure the safety and 
-                                confidentiality of your data and transactions.
-                            </p>
-                        </div>
+  const auditChecklist = [
+    { name: 'UserAuth Smart Contract', status: 'Audited & Verified', hash: '0xdbc22b...91651' },
+    { name: 'CreditToken (ERC-20)', status: 'Audited & Verified', hash: '0x42a050...3d69c' },
+    { name: 'LotTracker Task Registry', status: 'Audited & Verified', hash: '0xdB04e7...b9449' },
+    { name: 'Ephemeral Container Runtime', status: 'Penetration Tested', hash: 'Docker/K8s Sandbox' },
+  ];
 
-                        <div className="security-features">
-                            <div className="feature-item">
-                                <div className="feature-icon">
-                                                                    <img width="48" height="48" src="https://img.icons8.com/color/48/blockchain-technology.png" alt="blockchain-technology"/>
-
-                                </div>
-                                <h3>Blockchain Technology</h3>
-                                <p>All transactions are recorded on the Hedera Hashgraph blockchain for maximum security and transparency</p>
-                            </div>
-
-                            <div className="feature-item">
-                                <div className="feature-icon">
-                                    <img width="66" height="66" src="https://img.icons8.com/external-smashingstocks-outline-color-smashing-stocks/66/external-encryption-networking-smashingstocks-outline-color-smashing-stocks.png" alt="external-encryption-networking-smashingstocks-outline-color-smashing-stocks"/>
-                                </div>
-                                <h3>Encryption</h3>
-                                <p>Your data is encrypted both in transit and at rest using industry-standard encryption protocols</p>
-                            </div>
-
-                            <div className="feature-item">
-                                <div className="feature-icon">
-                                                                    <img width="48" height="48" src="https://img.icons8.com/flat-round/64/link--v1.png" alt="link--v1"/>
-
-                                </div>
-                                <h3>Smart Contracts</h3>
-                                <p>Automated task verification and payment processing using smart contracts</p>
-                            </div>
-
-                            <div className="feature-item">
-                                <div className="feature-icon">
-                                                                                                    <img width="48" height="48" src="https://img.icons8.com/color/48/keyhole-shield.png" alt="keyhole-shield"/>
-
-                                </div>
-                                <h3>Multi-Factor Authentication</h3>
-                                <p>Enhanced security through multi-factor authentication for all user accounts</p>
-                            </div>
-
-                            <div className="feature-item">
-                                <div className="feature-icon">
-                                                                    <img width="48" height="48" src="https://img.icons8.com/color/48/combo-chart--v1.png" alt="combo-chart--v1"/>
-
-                                </div>
-                                <h3>Real-time Monitoring</h3>
-                                <p>Continuous monitoring of our platform for suspicious activity and threats</p>
-                            </div>
-
-                            <div className="feature-item">
-                                <div className="feature-icon">
-                                                                                                        <img width="48" height="48" src="https://img.icons8.com/color/48/connection-status-on--v1.png" alt="connection-status-on--v1"/>
-
-                                </div>
-                                <h3>Regular Audits</h3>
-                                <p>Periodic security audits to identify and address vulnerabilities</p>
-                            </div>
-
-                            <div className="feature-item">
-                                <div className="feature-icon">
-                                    <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/spyware-free.png" alt="spyware-free"/>
-                                </div>
-                                <h3>Fraud Detection</h3>
-                                <p>Advanced fraud detection algorithms to prevent and detect fraudulent activities</p>
-                            </div>
-
-                            <div className="feature-item">
-                                <div className="feature-icon">
-                                    <img width="64" height="64" src="https://img.icons8.com/dusk/64/approval--v1.png" alt="approval--v1"/>
-                                </div>
-                                <h3>Compliance</h3>
-                                <p>Adherence to industry standards and regulatory requirements for data protection</p>
-                            </div>
-                        </div>
-
-                        <div className="security-measures">
-                            <h2>How We Protect You</h2>
-                            <div className="measures-grid">
-                                <div className="measure-item">
-                                    <div className="measure-header">
-                                        {/* <div className="measure-icon">🔑</div> */}
-                                        <h3>Account Security</h3>
-                                    </div>
-                                    <p>Strong password requirements, multi-factor authentication, and secure login processes</p>
-                                </div>
-
-                                <div className="measure-item">
-                                    <div className="measure-header">
-                                        {/* <div className="measure-icon">💳</div> */}
-                                        <h3>Payment Security</h3>
-                                    </div>
-                                    <p>Secure payment processing through blockchain technology and encrypted transactions</p>
-                                </div>
-
-                                <div className="measure-item">
-                                    <div className="measure-header">
-                                        {/* <div className="measure-icon">📱</div> */}
-                                        <h3>Data Protection</h3>
-                                    </div>
-                                    <p>Strict data protection measures in compliance with privacy regulations</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="best-practices">
-                            <h2>Your Security Responsibilities</h2>
-                            <div className="practices-list">
-                                <div className="practice-item">
-                                    <div className="practice-icon">
-                                        <img width="48" height="48" src="https://img.icons8.com/pulsar-gradient/48/verified-badge.png" alt="verified-badge"/>
-                                    </div>
-                                    <div className="practice-content">
-                                        <h3>Use Strong Passwords</h3>
-                                        <p>Create unique, complex passwords and update them regularly</p>
-                                    </div>
-                                </div>
-
-                                <div className="practice-item">
-                                    <div className="practice-icon">
-                                        <img width="48" height="48" src="https://img.icons8.com/pulsar-gradient/48/verified-badge.png" alt="verified-badge"/>
-                                    </div>
-                                    <div className="practice-content">
-                                        <h3>Enable Multi-Factor Authentication</h3>
-                                        <p>Add an extra layer of security to your account</p>
-                                    </div>
-                                </div>
-
-                                <div className="practice-item">
-                                    <div className="practice-icon">
-                                        <img width="48" height="48" src="https://img.icons8.com/pulsar-gradient/48/verified-badge.png" alt="verified-badge"/>
-                                    </div>
-                                    <div className="practice-content">
-                                        <h3>Be Wary of Phishing</h3>
-                                        <p>Never share your login credentials or personal information through email or unsolicited messages</p>
-                                    </div>
-                                </div>
-
-                                <div className="practice-item">
-                                    <div className="practice-icon">
-                                        <img width="48" height="48" src="https://img.icons8.com/pulsar-gradient/48/verified-badge.png" alt="verified-badge"/>
-                                    </div>
-                                    <div className="practice-content">
-                                        <h3>Keep Software Updated</h3>
-                                        <p>Ensure your devices and browsers are up to date with the latest security patches</p>
-                                    </div>
-                                </div>
-
-                                <div className="practice-item">
-                                    <div className="practice-icon">
-                                        <img width="48" height="48" src="https://img.icons8.com/pulsar-gradient/48/verified-badge.png" alt="verified-badge"/>
-                                    </div>
-                                    <div className="practice-content">
-                                        <h3>Monitor Your Account</h3>
-                                        <p>Regularly review your account activity and report any suspicious transactions</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="contact-section">
-                            <div className="contact-card">
-                                <h2>Reporting Security Issues</h2>
-                                <p>
-                                    If you discover any security vulnerabilities or issues with our 
-                                    platform, please report them to us immediately.
-                                </p>
-                                <div className="contact-methods">
-                                    <div className="contact-method">
-                                        <div className="method-icon">📧</div>
-                                        <div className="method-details">
-                                            <h3>Security Email</h3>
-                                            <p>security@openrent.com</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <footer className="security-footer">
-                <div className="container">
-                    <p>&copy; 2026 OpenRent. All rights reserved.</p>
-                </div>
-            </footer>
+  return (
+    <div className="security-page-root">
+      {/* Hero */}
+      <section className="page-hero">
+        <div className="container">
+          <span className="badge badge-emerald">ZERO-TRUST ARCHITECTURE</span>
+          <h1>Protocol Security & Verification</h1>
+          <p>
+            How OpenRent protects user autonomy, confidential task data, and cryptographic token escrow on Hedera Hashgraph.
+          </p>
         </div>
-    );
+      </section>
+
+      {/* Security Pillars */}
+      <section className="section security-pillars-section">
+        <div className="container">
+          <div className="grid-2 security-grid">
+            {securityPillars.map((pillar, idx) => (
+              <div key={idx} className="glass-card security-pillar-card">
+                <div className="pillar-icon-box">{pillar.icon}</div>
+                <h3>{pillar.title}</h3>
+                <p>{pillar.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contract & Verification Table */}
+      <section className="section audit-section">
+        <div className="container">
+          <div className="section-header">
+            <span className="badge badge-cyan">ON-CHAIN INTEGRITY</span>
+            <h2>Smart Contract Verification Status</h2>
+            <p>Publicly inspectable verified contracts deployed on the Hedera Testnet EVM.</p>
+          </div>
+
+          <div className="glass-card audit-table-card">
+            <div className="table-responsive">
+              <table className="audit-table font-mono">
+                <thead>
+                  <tr>
+                    <th>Contract / Component</th>
+                    <th>Audit Status</th>
+                    <th>EVM Address / Target</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {auditChecklist.map((item, i) => (
+                    <tr key={i}>
+                      <td><strong>{item.name}</strong></td>
+                      <td><span className="badge badge-emerald font-mono">✓ {item.status}</span></td>
+                      <td>
+                        <a href="https://hashscan.io/testnet" target="_blank" rel="noreferrer" className="contract-hash-link">
+                          {item.hash} ↗
+                        </a>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
 }

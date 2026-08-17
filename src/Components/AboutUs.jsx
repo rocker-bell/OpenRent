@@ -1,136 +1,144 @@
-import "../Styles/AboutUs.css";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import '../Styles/AboutUs.css';
 
 export default function AboutUs() {
-    return (
-        <div className="about-us">
-            <header className="about-header">
-                <div className="container">
-                    <h1>About OpenRent</h1>
-                    <p>Revolutionizing the way you rent AI and human expertise</p>
-                </div>
-            </header>
+  const values = [
+    {
+      icon: '🌐',
+      title: 'Decentralized Sovereignty',
+      desc: 'We eliminate gatekeepers and centralized platforms, placing complete custody of funds and identities into cryptographic smart contracts on Hedera.',
+    },
+    {
+      icon: '⚡',
+      title: 'Verifiable AI Execution',
+      desc: 'Every compute session and autonomous task produces a deterministic cryptographic audit trail, ensuring provable outputs with sub-second finality.',
+    },
+    {
+      icon: '🤝',
+      title: 'Borderless Talent Marketplace',
+      desc: 'Connecting global engineers and autonomous software agents with teams worldwide without geographic friction or traditional payment delays.',
+    },
+    {
+      icon: '🌱',
+      title: 'Sustainable Infrastructure',
+      desc: 'Anchored on Hedera Hashgraph, the greenest carbon-negative public ledger, making large-scale AI compute environmentally responsible.',
+    },
+  ];
 
-            <section className="about-content">
-                <div className="container">
-                    <div className="content-grid">
-                        <div className="content-image">
-                            <div className="placeholder-image">
-                                <span className="image-icon">
-                                                                <img width="100" height="100" src="https://img.icons8.com/3d-fluency/94/link.png" alt="link"/>
+  const team = [
+    {
+      name: 'Alex Vance',
+      role: 'Lead Blockchain Architect',
+      badge: 'Hedera & Solidity',
+      bio: 'Former distributed systems researcher with 8+ years building EVM protocols and consensus mechanisms.',
+    },
+    {
+      name: 'Dr. Elena Rostova',
+      role: 'Head of Autonomous Systems',
+      badge: 'AI & Multi-Agent Swarms',
+      bio: 'PhD in Computer Science specializing in reinforcement learning, tool-use agents, and headless browser automation.',
+    },
+    {
+      name: 'Marcus Chen',
+      role: 'Chief Security Officer',
+      badge: 'Smart Contract Auditing',
+      bio: 'Specialist in formal verification, reentrancy analysis, and cryptographic authentication schemes.',
+    },
+    {
+      name: 'Sarah Jenkins',
+      role: 'Head of Developer Experience',
+      badge: 'Ecosystem & APIs',
+      bio: 'Passionate about Web3 developer tooling, frictionless SDKs, and open-source automation libraries.',
+    },
+  ];
 
-                                </span>
-                            </div>
-                        </div>
-                        <div className="content-text">
-                            <h2>Our Mission</h2>
-                            <p>
-                                OpenRent is dedicated to democratizing access to AI and human expertise through 
-                                decentralized technology. We believe that everyone should have access to 
-                                powerful tools and skills without the barriers of traditional service models.
-                            </p>
-                            <p>
-                                Powered by Hedera Hashgraph, our platform ensures secure, transparent, and 
-                                efficient transactions, making renting expertise more accessible than ever before.
-                            </p>
-                            <div className="stats">
-                                <div className="stat-item">
-                                    <div className="stat-number">10K+</div>
-                                    <div className="stat-label">Active Users</div>
-                                </div>
-                                <div className="stat-item">
-                                    <div className="stat-number">100K+</div>
-                                    <div className="stat-label">Tasks Completed</div>
-                                </div>
-                                <div className="stat-item">
-                                    <div className="stat-number">99.9%</div>
-                                    <div className="stat-label">Uptime</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+  const milestones = [
+    { year: 'Q1 2025', title: 'Protocol Genesis', desc: 'Conception of decentralized workforce rental model settled via Hedera EVM.' },
+    { year: 'Q2 2025', title: 'Smart Escrow Deployment', desc: 'Launch of CreditToken (ERC-20) and non-custodial task registry contracts on Hedera Testnet.' },
+    { year: 'Q3 2025', title: 'Headless Agent Cluster', desc: 'Integration of Puppeteer & Selenium worker nodes with sub-60s sandbox provisioning.' },
+    { year: 'Q4 2025', title: 'Mainnet Transition', desc: 'Scaling compute capacity to 500+ concurrent autonomous agent workers globally.' },
+  ];
 
-            <section className="team-section">
-                <div className="container">
-                    <div className="section-header">
-                        <h2>Meet Our Team</h2>
-                        <p>Experts dedicated to your success</p>
-                    </div>
-                    <div className="team-grid">
-                        <div className="team-member">
-                            <div className="member-avatar">👨‍💼</div>
-                            <h3>Anass Tantane</h3>
-                            <p className="member-role">CEO & Founder</p>
-                            <p className="member-bio">Blockchain enthusiast with 3+ years of experience in distributed systems</p>
-                        </div>
-                        {/* <div className="team-member">
-                            <div className="member-avatar">👩‍💻</div>
-                            <h3>Jane Smith</h3>
-                            <p className="member-role">CTO</p>
-                            <p className="member-bio">AI and machine learning expert specializing in automation</p>
-                        </div>
-                        <div className="team-member">
-                            <div className="member-avatar">👨‍🔬</div>
-                            <h3>Mike Johnson</h3>
-                            <p className="member-role">Lead Developer</p>
-                            <p className="member-bio">Full-stack developer with expertise in decentralized applications</p>
-                        </div>
-                        <div className="team-member">
-                            <div className="member-avatar">👩‍🎨</div>
-                            <h3>Sarah Williams</h3>
-                            <p className="member-role">Design Director</p>
-                            <p className="member-bio">User experience designer passionate about creating intuitive platforms</p>
-                        </div> */}
-                    </div>
-                </div>
-            </section>
-
-            <section className="values-section">
-                <div className="container">
-                    <div className="section-header">
-                        <h2>Our Values</h2>
-                        <p>What drives us forward</p>
-                    </div>
-                    <div className="values-grid">
-                        <div className="value-item">
-                            <div className="value-icon">
-                                                                                                <img width="48" height="48" src="https://img.icons8.com/color/48/keyhole-shield.png" alt="keyhole-shield"/>
-
-                            </div>
-                            <h3>Security</h3>
-                            <p>Your data and transactions are protected with cutting-edge blockchain technology</p>
-                        </div>
-                        <div className="value-item">
-                            <div className="value-icon">
-                                                                <img width="50" height="50" src="https://img.icons8.com/isometric/50/lightning-bolt.png" alt="lightning-bolt"/>
-
-                            </div>
-                            <h3>Efficiency</h3>
-                            <p>Fast, reliable, and cost-effective solutions for your tasks</p>
-                        </div>
-                        <div className="value-item">
-                            <div className="value-icon">🌐</div>
-                            <h3>Accessibility</h3>
-                            <p>Democratizing access to AI and human expertise worldwide</p>
-                        </div>
-                        <div className="value-item">
-                            <div className="value-icon">
-                                                                                                    <img width="48" height="48" src="https://img.icons8.com/color/48/connection-status-on--v1.png" alt="connection-status-on--v1"/>
-
-                            </div>
-                            <h3>Transparency</h3>
-                            <p>Every transaction is recorded on the blockchain for complete visibility</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <footer className="about-footer">
-                <div className="container">
-                    <p>&copy; 2026 OpenRent. All rights reserved.</p>
-                </div>
-            </footer>
+  return (
+    <div className="about-page-root">
+      {/* Hero */}
+      <section className="page-hero">
+        <div className="container">
+          <span className="badge badge-emerald">OUR PURPOSE & MISSION</span>
+          <h1>Democratizing Autonomous & Human Workforce</h1>
+          <p>
+            OpenRent bridges cutting-edge AI reasoning swarms with verified human engineers, creating the first truly decentralized workforce exchange.
+          </p>
         </div>
-    );
+      </section>
+
+      {/* Core Values */}
+      <section className="section values-section">
+        <div className="container">
+          <div className="section-header">
+            <span className="badge badge-cyan">GUIDING PRINCIPLES</span>
+            <h2>What Drives OpenRent</h2>
+            <p>Our core pillars shaping the future of autonomous software execution.</p>
+          </div>
+
+          <div className="grid-2 values-grid">
+            {values.map((v, i) => (
+              <div key={i} className="glass-card value-card">
+                <div className="value-icon-box">{v.icon}</div>
+                <h3>{v.title}</h3>
+                <p>{v.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Roadmap / Milestones */}
+      <section className="section roadmap-section">
+        <div className="container">
+          <div className="section-header">
+            <span className="badge badge-indigo">JOURNEY & MILESTONES</span>
+            <h2>Protocol Evolution</h2>
+            <p>From initial proof-of-concept to a decentralized global execution network.</p>
+          </div>
+
+          <div className="timeline-container">
+            {milestones.map((m, idx) => (
+              <div key={idx} className="timeline-node glass-card">
+                <span className="timeline-year font-mono">{m.year}</span>
+                <h4>{m.title}</h4>
+                <p>{m.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Team Section */}
+      <section className="section team-section">
+        <div className="container">
+          <div className="section-header">
+            <span className="badge badge-emerald">LEADERSHIP & RESEARCH</span>
+            <h2>Meet the Core Contributors</h2>
+            <p>Engineers, researchers, and cryptographers building next-generation workforce protocols.</p>
+          </div>
+
+          <div className="grid-4 team-grid">
+            {team.map((member, idx) => (
+              <div key={idx} className="glass-card team-card">
+                <div className="team-avatar-box">
+                  <span className="team-avatar-symbol">{member.name.charAt(0)}</span>
+                </div>
+                <h4>{member.name}</h4>
+                <span className="team-role">{member.role}</span>
+                <span className="badge badge-cyan team-badge font-mono">{member.badge}</span>
+                <p className="team-bio">{member.bio}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
 }

@@ -1,137 +1,106 @@
-import "../Styles/Features.css";
-import HederaLogo from "../assets/hedera-logo.png"
-
+import React from 'react';
+import { Link } from 'react-router-dom';
+import '../Styles/Features.css';
 
 export default function Features() {
-    return (
-        <div className="features-page">
-            <header className="features-header">
-                <div className="container">
-                    <h1>Key Features</h1>
-                    <p>Why choose OpenRent for your renting needs</p>
-                </div>
-            </header>
+  const coreFeatures = [
+    {
+      icon: '⚡',
+      title: 'Sub-Second Hedera Settlement',
+      tag: 'HEDERA HASHGRAPH',
+      tagClass: 'badge-emerald',
+      description: 'Leverages Hedera EVM and consensus services to settle tasks in under 2.5 seconds with predictable sub-cent transaction costs and instant finality.',
+    },
+    {
+      icon: '🔒',
+      title: 'Sandboxed Compute Isolation',
+      tag: 'SECURITY & ISOLATION',
+      tagClass: 'badge-cyan',
+      description: 'Every AI agent and automation runtime executes inside ephemeral, memory-isolated Docker containers with restricted network egress and zero data leakage.',
+    },
+    {
+      icon: '💎',
+      title: 'CreditToken Smart Escrow',
+      tag: 'ERC-20 ESCROW',
+      tagClass: 'badge-indigo',
+      description: 'Rent resources with native CreditTokens. Funds remain protected in smart contract escrow and are released incrementally as verified execution checkpoints complete.',
+    },
+    {
+      icon: '🤖',
+      title: 'Headless Browser Fleet',
+      tag: 'SELENIUM & PUPPETEER',
+      tagClass: 'badge-emerald',
+      description: 'Deploy high-concurrency headless browser clusters capable of handling dynamic JavaScript single-page applications, CAPTCHA avoidance, and complex workflows.',
+    },
+    {
+      icon: '📜',
+      title: 'Immutable On-Chain Proofs',
+      tag: 'AUDITABILITY',
+      tagClass: 'badge-cyan',
+      description: 'Each mission prompt, execution hash, and artifact digest is permanently sealed on the Hedera distributed ledger, viewable on HashScan in real-time.',
+    },
+    {
+      icon: '🔑',
+      title: 'Decentralized Cryptographic Auth',
+      tag: 'SHA-256 & WEB3',
+      tagClass: 'badge-indigo',
+      description: 'Client-side SHA-256 password hashing combined with MetaMask signature verification ensures you retain full sovereign control of your account credentials.',
+    },
+  ];
 
-            <section className="features-content">
-                <div className="container">
-                    <div className="features-grid">
-                        <div className="feature-item">
-                            <div className="feature-icon">
-                                                                <img width="48" height="48" src="https://img.icons8.com/color/48/keyhole-shield.png" alt="keyhole-shield"/>
-
-                            </div>
-                            <h3>Secure & Transparent</h3>
-                            <p>All transactions are recorded on the Hedera Hashgraph blockchain for maximum security and transparency</p>
-                        </div>
-                        <div className="feature-item">
-                            <div className="feature-icon">
-                                                                <img width="50" height="50" src="https://img.icons8.com/isometric/50/lightning-bolt.png" alt="lightning-bolt"/>
-
-                            </div>
-                            <h3>Fast & Efficient</h3>
-                            <p>High-speed RDP connections powered by Selenium and Puppeteer for optimal performance</p>
-                        </div>
-                        <div className="feature-item">
-                            <div className="feature-icon">
-                                                                <img width="48" height="48" src="https://img.icons8.com/color/48/exchange.png" alt="exchange"/>
-
-                            </div>
-                            <h3>Cost Effective</h3>
-                            <p>Pay only for the resources you use with our flexible hourly pricing model</p>
-                        </div>
-                        <div className="feature-item">
-                            <div className="feature-icon">🌐</div>
-                            <h3>Global Access</h3>
-                            <p>Access our services from anywhere in the world with our decentralized platform</p>
-                        </div>
-                        <div className="feature-item">
-                            <div className="feature-icon">
-                                                                                                    <img width="48" height="48" src="https://img.icons8.com/color/48/connection-status-on--v1.png" alt="connection-status-on--v1"/>
-
-                            </div>
-                            <h3>Real-time Monitoring</h3>
-                            <p>Track your tasks in real-time with our comprehensive monitoring dashboard</p>
-                        </div>
-                        <div className="feature-item">
-                            <div className="feature-icon">
-                                                                <img width="48" height="48" src="https://img.icons8.com/color/48/blockchain-technology.png" alt="blockchain-technology"/>
-
-                            </div>
-                            <h3>Smart Contracts</h3>
-                            <p>Automated task verification and payment processing using smart contracts</p>
-                        </div>
-                        <div className="feature-item">
-                            <div className="feature-icon">
-                                <img width="48" height="48" src="https://img.icons8.com/pulsar-color/48/bard.png" alt="bard"/>
-                            </div>
-                            <h3>AI-Powered</h3>
-                            <p>Advanced AI algorithms for efficient task execution and optimization</p>
-                        </div>
-                        <div className="feature-item">
-                            <div className="feature-icon">👥</div>
-                            <h3>Human Expertise</h3>
-                            <p>Access to qualified human experts for complex tasks requiring human judgment</p>
-                        </div>
-                        <div className="feature-item">
-                            <div className="feature-icon">
-                                                                <img width="48" height="48" src="https://img.icons8.com/color/48/combo-chart--v1.png" alt="combo-chart--v1"/>
-
-                            </div>
-                            <h3>Analytics Dashboard</h3>
-                            <p>Comprehensive analytics and reporting to track your usage and performance</p>
-                        </div>
-                    </div>
-
-                    <div className="features-highlight">
-                        <div className="highlight-content">
-                            <h2>Advanced Technology Stack</h2>
-                            <p>
-                                Our platform is built on cutting-edge technology to ensure the best 
-                                possible experience for our users.
-                            </p>
-                            <div className="tech-stack">
-                                <div className="tech-item">
-                                    <div className="tech-icon">
-                                                                        <img src={HederaLogo} width="200" height="100" alt="hedera-logo" />
-                                        
-                                    </div>
-                                    <h3>Hedera Hashgraph</h3>
-                                    <p>High-performance blockchain platform for secure transactions</p>
-                                </div>
-                                <div className="tech-item">
-                                    <div className="tech-icon">
-                                                                        <img width="48" height="48" src="https://img.icons8.com/fluency/48/external-link.png" alt="external-link"/>
-
-                                    </div>
-                                    <h3>Selenium & Puppeteer</h3>
-                                    <p>Advanced automation tools for RDP connections and task execution</p>
-                                </div>
-                                <div className="tech-item">
-                                    <div className="tech-icon">
-                                                                        <img width="48" height="48" src="https://img.icons8.com/flat-round/64/link--v1.png" alt="link--v1"/>
-
-                                    </div>
-                                    <h3>Smart Contracts</h3>
-                                    <p>Automated contract execution with transparent verification</p>
-                                </div>
-                                {/* <div className="tech-item">
-                                    <div className="tech-icon">
-                                        
-                                    </div>
-                                    <h3>Real-time Analytics</h3>
-                                    <p>Comprehensive monitoring and reporting dashboard</p>
-                                </div> */}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <footer className="features-footer">
-                <div className="container">
-                    <p>&copy; 2026 OpenRent. All rights reserved.</p>
-                </div>
-            </footer>
+  return (
+    <div className="features-page-root">
+      {/* Hero */}
+      <section className="page-hero">
+        <div className="container">
+          <span className="badge badge-cyan">CAPABILITY BLUEPRINT</span>
+          <h1>Engineered for Autonomous Scale</h1>
+          <p>
+            Discover the high-performance blockchain architecture and automation toolchains powering the OpenRent decentralized marketplace.
+          </p>
         </div>
-    );
+      </section>
+
+      {/* Grid */}
+      <section className="section features-grid-section">
+        <div className="container">
+          <div className="grid-3 features-card-grid">
+            {coreFeatures.map((feat, idx) => (
+              <div key={idx} className="glass-card feature-display-card">
+                <div className="feature-card-top">
+                  <div className="feature-icon-badge">{feat.icon}</div>
+                  <span className={`badge ${feat.tagClass}`}>{feat.tag}</span>
+                </div>
+                <h3>{feat.title}</h3>
+                <p>{feat.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Deep-Dive Architecture Feature Callout */}
+      <section className="section feature-callout-section">
+        <div className="container">
+          <div className="glass-card feature-callout-card highlight">
+            <div className="callout-content">
+              <span className="badge badge-emerald">ZERO TRADITIONAL KYC</span>
+              <h2>True Sovereign Workforce Delegation</h2>
+              <p>
+                No credit cards, no geographic barriers, and no vendor lock-in. Connect with any Web3 wallet, approve CreditTokens via standard ERC-20 functions, and command powerful automated resources globally.
+              </p>
+              <div className="callout-btn-row">
+                <Link to="/Demo" className="btn btn-primary">
+                  Launch Console & Connect
+                </Link>
+                <Link to="/technology" className="btn btn-secondary">
+                  Read Technical Whitepaper
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
 }

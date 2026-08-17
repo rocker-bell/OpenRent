@@ -1,228 +1,137 @@
-.about-us {
-     min-width: 100%;
-    min-height: 100%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
+/* ==========================================================================
+   About Us Page Component Styles
+   ========================================================================== */
 
-.about-header {
-    padding: 80px 0 40px;
-    text-align: center;
-    color: white;
-}
-
-.about-header h1 {
-    font-size: 3.5rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
-
-.about-header p {
-    font-size: 1.3rem;
-    opacity: 0.9;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.about-content {
-    padding: 60px 0;
-    background: white;
-}
-
-.content-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: center;
-}
-
-.content-image .placeholder-image {
-    width: 100%;
-    aspect-ratio: 1;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-}
-
-.image-icon {
-    font-size: 8rem;
-    animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-}
-
-.content-text h2 {
-    font-size: 2.5rem;
-    color: #2d3748;
-    margin-bottom: 24px;
-}
-
-.content-text p {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #4a5568;
-    margin-bottom: 20px;
-}
-
-.stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-    margin-top: 40px;
-}
-
-.stat-item {
-    text-align: center;
-    padding: 20px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 15px;
-    color: white;
-}
-
-.stat-number {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 8px;
-}
-
-.stat-label {
-    font-size: 0.9rem;
-    opacity: 0.9;
-}
-
-.team-section {
-    padding: 80px 0;
-    background: #f7fafc;
-}
-
-.team-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    margin-top: 40px;
-}
-
-.team-member {
-    background: white;
-    padding: 30px;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.team-member:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-}
-
-.member-avatar {
-    width: 120px;
-    height: 120px;
-    margin: 0 auto 20px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
-}
-
-.team-member h3 {
-    font-size: 1.4rem;
-    color: #2d3748;
-    margin-bottom: 8px;
-}
-
-.member-role {
-    color: #667eea;
-    font-weight: 600;
-    margin-bottom: 12px;
-}
-
-.member-bio {
-    font-size: 0.95rem;
-    color: #718096;
-    line-height: 1.6;
-}
-
-.values-section {
-    padding: 80px 0;
-    background: white;
+.about-page-root {
+  width: 100%;
 }
 
 .values-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-    margin-top: 40px;
+  align-items: stretch;
 }
 
-.value-item {
-    text-align: center;
-    padding: 30px;
-    border-radius: 15px;
-    background: #f7fafc;
-    transition: transform 0.3s ease;
+.value-card {
+  display: flex;
+  flex-direction: column;
+  padding: 2.25rem;
+  height: 100%;
 }
 
-.value-item:hover {
-    transform: translateY(-5px);
+.value-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
-.value-icon {
-    font-size: 3rem;
-    margin-bottom: 16px;
+.value-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.75rem;
 }
 
-.value-item h3 {
-    font-size: 1.3rem;
-    color: #2d3748;
-    margin-bottom: 12px;
+.value-card p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
 }
 
-.value-item p {
-    font-size: 0.95rem;
-    color: #718096;
-    line-height: 1.6;
+/* Timeline */
+.timeline-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  position: relative;
 }
 
-.about-footer {
-    padding: 40px 0;
-    background: #2d3748;
-    color: white;
-    text-align: center;
+.timeline-node {
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-@media (max-width: 768px) {
-    .content-grid {
-        grid-template-columns: 1fr;
-        gap: 40px;
-    }
-    
-    .stats {
-        grid-template-columns: 1fr;
-    }
-    
-    .team-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .values-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .about-header h1 {
-        font-size: 2.5rem;
-    }
-    
-    .content-text h2 {
-        font-size: 2rem;
-    }
+.timeline-year {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--accent-emerald);
+}
+
+.timeline-node h4 {
+  font-size: 1.15rem;
+}
+
+.timeline-node p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+}
+
+/* Team Grid */
+.team-grid {
+  align-items: stretch;
+}
+
+.team-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 1.5rem;
+}
+
+.team-avatar-box {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(0, 235, 156, 0.2), rgba(99, 102, 241, 0.2));
+  border: 2px solid var(--border-emerald);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.team-avatar-symbol {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--accent-emerald);
+}
+
+.team-card h4 {
+  font-size: 1.15rem;
+  margin-bottom: 0.2rem;
+}
+
+.team-role {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.team-badge {
+  font-size: 0.7rem;
+  margin-bottom: 1rem;
+}
+
+.team-bio {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .timeline-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .timeline-container {
+    grid-template-columns: 1fr;
+  }
 }

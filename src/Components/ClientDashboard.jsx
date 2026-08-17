@@ -1,635 +1,704 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import toggleSideBar from "./images/toggle-sidebar.png";
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-// 🟢 Import all necessary ethers v6 components
-import { ethers, Contract, BrowserProvider, formatUnits, parseUnits } from 'ethers'; 
-import "../Styles/dashboard.css"; 
+import { ethers, formatUnits, parseUnits } from 'ethers';
+import { CONTRACT_ADDRESSES } from '../config/contracts.js';
+import '../Styles/dashboard.css';
 
-import CreditTokenABI from './CreditTokenABI.js'; 
+export default function ClientDashboard({
+  userData,
+  setUserData,
+  signer,
+  contract,
+  creditTokenContract,
+  authContract,
+  message,
+  setMessage,
+  connectAndSetup,
+}) {
+  const navigate = useNavigate();
 
-// 🚨 IMPORTANT: This MUST be the address of your deployed CreditToken
-const CREDIT_TOKEN_ADDRESS = "0x42a05014306386b823329f777eb09ec1f493d69c"; 
+  // Navigation & active view
+  const [activeSection, setActiveSection] = useState('overview'); // 'overview', 'deploy', 'explorer', 'wallet', 'settings'
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-// 🟢 ACCEPT PROPS: contract and creditTokenContract are now passed from App.jsx
-function Dashboard({ setUserData, setMessage, userData, signer, contract, creditTokenContract }) {
-    
-    // --- Component State ---
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-    const [activeSection, setActiveSection] = useState('dashboard'); 
-    const navigate = useNavigate();
+  // Deploy Mission / Task State (maps to contract.insert)
+  const [missionData, setMissionData] = useState({
+    name: 'Competitor Price Extraction Pipeline',
+    executorType: 'Puppeteer-Headless-Node-v2',
+    date: new Date().toISOString().split('T')[0],
+    location: 'Hedera-Sandbox-Cluster-US1',
+    metadataURI: 'ipfs://bafybeihdwdcefgh4dqkjv67...',
+  });
 
-    const [devisView, setDevisView] = useState('buttons'); 
-    const [newProductData, setNewProductData] = useState({
-        name: '', manufacturer: '', manufactureDate: '', 
-        initialLocation: '', metadataURI: '' 
-    });
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isChecking, setIsChecking] = useState(false);
-    
-    const [checkProductId, setCheckProductId] = useState('');
-    const [checkedProductResult, setCheckedProductResult] = useState(null);
-    const [feeRecipient, setFeeRecipient] = useState('...'); 
-    const [contractCreditTokenAddress, setContractCreditTokenAddress] = useState('...');
+  const [isDeploying, setIsDeploying] = useState(false);
+  const [isChecking, setIsChecking] = useState(false);
+  const [checkTaskId, setCheckTaskId] = useState('1');
+  const [taskResult, setTaskResult] = useState(null);
 
-    const toggleSidebar = () => setIsSidebarOpen(prev => !prev); 
+  // Allowance and Faucet state
+  const [currentAllowance, setCurrentAllowance] = useState('...');
+  const [isApproving, setIsApproving] = useState(false);
+  const [isFauceting, setIsFauceting] = useState(false);
 
-    // --- Utility Functions ---
-
-    // 🔴 REMOVED: connectAndSetup and its calling useEffect. 
-    // This logic is now correctly handled ONLY in App.jsx.
-
-    // 💡 Fetch and log Fee Recipient and CreditToken Address on load (FIXED)
-    useEffect(() => {
-        const checkContractConfig = async () => {
-            // 🟢 FIX: Wait for the 'contract' prop to be passed down and initialized
-            if (contract && contract.interface && signer) {
-                try {
-                    // Use array access notation for reliability
-                    const feeRecipientAddr = await contract["FEE_RECIPIENT"]();
-                    const creditTokenAddr = await contract["creditToken"](); 
-                    
-                    setFeeRecipient(feeRecipientAddr);
-                    setContractCreditTokenAddress(creditTokenAddr);
-
-                    console.log(`DEBUG: LotTrackr FEE_RECIPIENT (from contract): ${feeRecipientAddr}`);
-                    console.log(`DEBUG: Contract Credit Token Address (from contract): ${creditTokenAddr}`);
-                    
-                    // Check if the addresses are swapped (the deployment error)
-                    if (feeRecipientAddr.toLowerCase() === creditTokenAddr.toLowerCase()) {
-                        setMessage("⚠️ CRITICAL ERROR: The LotTrackr Fee Recipient is set to its own CreditToken address. All transactions will fail until you redeploy.");
-                    } else if (feeRecipientAddr === ethers.ZeroAddress) {
-                        setMessage("CRITICAL WARNING: LotTrackr FEE_RECIPIENT is 0x0. Fee transfers will fail!");
-                    }
-                } catch (error) {
-                    console.error("Could not fetch contract state. Check ABI, network connection, and ensure FEE_RECIPIENT/creditToken are public view functions.", error);
-                    setFeeRecipient("Error fetching - Check ABI/Network");
-                    setContractCreditTokenAddress("Error fetching - Check ABI/Network");
-                }
-            }
-        };
-        checkContractConfig();
-    }, [contract, signer, setMessage]); // Runs when contract/signer are initialized
-
-
-    const handleLogout = () => {
-        if (setUserData) setUserData(null); 
-        if (setMessage) setMessage("Successfully logged out. Connect or Register to continue.");
-        navigate("/", { replace: true }); 
-    };
-
-    const dateToUnixTimestamp = (dateString) => {
-        if (!dateString) return 0;
-        const date = new Date(dateString + 'T00:00:00Z'); 
-        return Math.floor(date.getTime() / 1000);
-    };
-    
-    const formatKey = (key) => {
-        const statusMap = { '0': 'Active', '1': 'Inactive', '2': 'Transferred', '3': 'Discarded' }; 
-        switch (key) {
-            case 'lotId': return 'Lot ID';
-            case 'name': return 'Product Name';
-            case 'currentHandler': return 'Current Handler';
-            case 'currentLocation': return 'Current Location';
-            case 'currentOwner': return 'Current Owner Address';
-            case 'manufactureDate': return 'Manufacture Date';
-            case 'manufacturer': return 'Manufacturer Name';
-            case 'metadataURI': return 'Metadata URI';
-            case 'status': return `Status (${statusMap[checkedProductResult?.status] || 'Unknown'})`; 
-            default: return key.replace(/([A-Z])/g, ' $1').replace('_', ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-        }
+  // Fetch allowance on load
+  const fetchAllowance = async () => {
+    if (creditTokenContract && signer && contract) {
+      try {
+        const lotAddress = await contract.getAddress();
+        const allow = await creditTokenContract.allowance(signer.address, lotAddress);
+        setCurrentAllowance(formatUnits(allow, 18));
+      } catch (err) {
+        console.warn('Could not fetch allowance:', err);
+      }
     }
+  };
 
+  useEffect(() => {
+    fetchAllowance();
+  }, [creditTokenContract, signer, contract]);
 
-    // --- Transaction/Read Functions ---
+  const handleLogout = () => {
+    if (setUserData) setUserData(null);
+    if (setMessage) setMessage('Successfully logged out.');
+    navigate('/', { replace: true });
+  };
 
-    // const handleAddProductSubmit = async (e) => {
-    //     e.preventDefault();
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text);
+    if (setMessage) setMessage('Address copied to clipboard!');
+    setTimeout(() => {
+      if (setMessage) setMessage('');
+    }, 3000);
+  };
 
-    //     // ⚠️ CRITICAL CHECK: Ensure props from App.jsx are available
-    //     if (!contract || !creditTokenContract || !signer) {
-    //         setMessage("Error: Wallet not connected or Contracts not initialized. Please connect your wallet first.");
-    //         return; 
-    //     }
-
-    //     setIsSubmitting(true);
-    //     setMessage(`Preparing transaction for product ${newProductData.name}...`);
-
-    //     try {
-    //         // 1. Resolve Addresses and Prepare Amounts
-    //         const lotTrackrAddress = await contract.getAddress(); 
-    //         const timestampInSeconds = dateToUnixTimestamp(newProductData.manufactureDate);
-            
-    //         // Fee for the LotTrackr contract (1 CreditToken with 18 decimals)
-    //         const fixedFeeAmount = parseUnits("1", 18); 
-            
-    //         // Fee for the Hedera network interaction (Small HBAR fee)
-    //         const interactionFee = parseUnits("100", "gwei"); 
-
-    //         // 2. CreditToken Approval Check
-    //         setMessage("Step 1/2: Checking/Requesting CreditToken approval...");
-            
-    //         // Use the creditTokenContract prop passed from App.jsx
-    //         const allowance = await creditTokenContract.allowance(signer.address, lotTrackrAddress);
-            
-    //         console.log(`DEBUG: LotTrackr Address: ${lotTrackrAddress}`);
-    //         console.log(`DEBUG: Required Fee (Wei): ${fixedFeeAmount.toString()}`);
-    //         console.log(`DEBUG: Current Allowance (Wei): ${allowance.toString()}`);
-
-    //         if (allowance < fixedFeeAmount) {
-    //             const approvalAmount = parseUnits("1000", 18); 
-
-    //             setMessage(`Insufficient allowance. Requesting approval for ${formatUnits(approvalAmount, 18)} CreditTokens...`);
-                
-    //             const approvalTx = await creditTokenContract.approve(
-    //                 lotTrackrAddress, 
-    //                 approvalAmount 
-    //             );
-    //             setMessage(`Approval transaction sent (Hash: ${approvalTx.hash}). Waiting for confirmation...`);
-    //             await approvalTx.wait(); 
-    //             setMessage("✅ Approval successful. Proceeding to product insertion.");
-    //         } else {
-    //             setMessage("✅ Sufficient CreditToken allowance already set. Proceeding...");
-    //         }
-
-    //         // 3. Execute Insert Transaction
-    //         setMessage(`Step 2/2: Sending 'insert' transaction for product ${newProductData.name}...`);
-            
-    //         const tx = await contract.insert(
-    //             newProductData.name,
-    //             newProductData.manufacturer,
-    //             ethers.toBigInt(timestampInSeconds),
-    //             newProductData.initialLocation,
-    //             newProductData.metadataURI,
-    //             { 
-    //                 value: interactionFee // Pays the HBAR network fee (CRITICAL for Hedera EVM)
-    //             }
-    //         ); 
-
-    //         setMessage(`Transaction sent (Hash: ${tx.hash}). Waiting for confirmation...`);
-
-    //         const receipt = await tx.wait(); 
-
-    //         if (receipt.status === 1) {
-    //             setMessage(`✅ Product "${newProductData.name}" successfully added!`);
-    //         } else {
-    //             setMessage(`❌ Transaction failed (reverted). Check transaction hash: ${tx.hash}`);
-    //         }
-
-    //     } catch (error) {
-    //         console.error("Error in transaction flow:", error);
-            
-    //         let errorMessage = error.reason || (error.data?.message || error.message);
-            
-    //         if (errorMessage.includes('user rejected')) {
-    //              errorMessage = 'Transaction rejected by user.';
-    //         } else if (errorMessage.includes('Fee transfer failed')) {
-    //              errorMessage = `Transaction failed: Fee transfer failed. LIKELY CAUSE: Insufficient CreditToken balance or LotTrackr allowance is too low.`;
-    //         } else if (errorMessage.includes('Insufficient CreditToken balance to qualify')) {
-    //              errorMessage = `Transaction failed: You need at least 100 CreditTokens to qualify for the first transaction.`;
-    //         } else if (errorMessage.includes('Send ETH to pay the interaction fee')) {
-    //              errorMessage = 'Transaction failed: Missing HBAR network fee. Ensure the transaction includes a small HBAR value.';
-    //         }
-
-    //         setMessage(`Transaction failed: ${errorMessage}`);
-    //     } finally {
-    //         setIsSubmitting(false);
-    //         setNewProductData({
-    //             name: '', manufacturer: '', manufactureDate: '', 
-    //             initialLocation: '', metadataURI: ''
-    //         });
-    //         if (activeSection === 'devis') setDevisView('buttons'); 
-    //     }
-    // };
-
-    // 🚀 FULL FIXED CONTRACT CALL FOR INSERT (Write Function)
-const handleAddProductSubmit = async (e) => {
+  // --- Deploy Mission (contract.insert with CreditToken approve) ---
+  const handleDeployMission = async (e) => {
     e.preventDefault();
 
-    // 1. Check Prerequisites
     if (!contract || !creditTokenContract || !signer) {
-        setMessage("Error: Wallet not connected or Contracts not initialized. Please connect your wallet first.");
-        return; 
+      if (setMessage) setMessage('Error: Wallet or smart contracts are not initialized. Please connect wallet.');
+      return;
     }
 
-    setIsSubmitting(true);
-    setMessage(`Preparing transaction for product ${newProductData.name}...`);
+    setIsDeploying(true);
+    if (setMessage) setMessage(`Preparing deployment for "${missionData.name}"...`);
 
     try {
-        // 2. Resolve Addresses and Prepare Amounts
-        const lotTrackrAddress = await contract.getAddress(); 
-        const timestampInSeconds = dateToUnixTimestamp(newProductData.manufactureDate);
-        
-        // Fee for the LotTrackr contract (1 CreditToken with 18 decimals)
-        const fixedFeeAmount = ethers.parseUnits("1", "ether"); 
-        
-        // 3. CreditToken Approval Check
-        setMessage("Step 1/2: Checking/Requesting CreditToken approval...");
-        
-        // Use the creditTokenContract prop passed from App.jsx
-        const allowance = await creditTokenContract.allowance(signer.address, lotTrackrAddress);
-        
-        console.log(`DEBUG: LotTrackr Address: ${lotTrackrAddress}`);
-        console.log(`DEBUG: Required Fee (Wei): ${fixedFeeAmount.toString()}`);
-        console.log(`DEBUG: Current Allowance (Wei): ${allowance.toString()}`);
+      const lotAddress = await contract.getAddress();
+      const timestampInSeconds = Math.floor(new Date(missionData.date + 'T00:00:00Z').getTime() / 1000);
+      const requiredFee = parseUnits('1', 18); // 1 CreditToken fee
 
-        if (allowance < fixedFeeAmount) {
-            // Approve a large amount (e.g., 1000 tokens) to minimize future approval transactions
-            const approvalAmount = ethers.parseUnits("1000", "ether"); 
+      if (setMessage) setMessage('Step 1/2: Verifying CreditToken allowance...');
+      const allowance = await creditTokenContract.allowance(signer.address, lotAddress);
 
-            setMessage(`Insufficient allowance. Requesting approval for ${formatUnits(approvalAmount, 18)} CreditTokens...`);
-            
-            const approvalTx = await creditTokenContract.approve(
-                lotTrackrAddress, 
-                approvalAmount 
-            );
-            setMessage(`Approval transaction sent (Hash: ${approvalTx.hash}). Waiting for confirmation...`);
-            await approvalTx.wait(); 
-            setMessage("✅ Approval successful. Proceeding to product insertion.");
-        } else {
-            setMessage("✅ Sufficient CreditToken allowance already set. Proceeding...");
-        }
+      if (allowance < requiredFee) {
+        const approveAmount = parseUnits('500', 18);
+        if (setMessage) setMessage(`Requesting CreditToken approval (500 CT) in MetaMask...`);
+        const approveTx = await creditTokenContract.approve(lotAddress, approveAmount);
+        await approveTx.wait();
+        if (setMessage) setMessage('✅ CreditToken approved! Proceeding to mission dispatch...');
+      }
 
-        // 4. Execute Insert Transaction
-        setMessage(`Step 2/2: Sending 'insert' transaction for product ${newProductData.name}...`);
-        
-        // 🟢 FIX: REMOVED the { value: ... } object.
-        // The 'insert' function is no longer payable and takes its fee via transferFrom.
-        const tx = await contract.insert(
-            newProductData.name,
-            newProductData.manufacturer,
-            ethers.toBigInt(timestampInSeconds),
-            newProductData.initialLocation,
-            newProductData.metadataURI
-            // NO VALUE OBJECT HERE
-        ); 
+      if (setMessage) setMessage(`Step 2/2: Confirming task deployment on Hedera EVM...`);
 
-        setMessage(`Transaction sent (Hash: ${tx.hash}). Waiting for confirmation...`);
+      const tx = await contract.insert(
+        missionData.name,
+        missionData.executorType,
+        BigInt(timestampInSeconds),
+        missionData.location,
+        missionData.metadataURI
+      );
 
-        const receipt = await tx.wait(); 
+      if (setMessage) setMessage(`Transaction sent: ${tx.hash.substring(0, 10)}... Awaiting Hedera consensus.`);
+      const receipt = await tx.wait();
 
-        if (receipt.status === 1) {
-            setMessage(`✅ Product "${newProductData.name}" successfully added!`);
-        } else {
-            setMessage(`❌ Transaction failed (reverted). Check transaction hash: ${tx.hash}`);
-        }
-
-    } catch (error) {
-        console.error("Error in transaction flow:", error);
-        
-        let errorMessage = error.reason || (error.data?.message || error.message);
-        
-        // Enhanced Error Reporting based on typical contract reverts
-        if (errorMessage.includes('user rejected')) {
-             errorMessage = 'Transaction rejected by user.';
-        } else if (errorMessage.includes('Fee transfer failed')) {
-             errorMessage = `Transaction failed: Fee transfer failed. LIKELY CAUSE: Insufficient CreditToken balance or LotTrackr allowance is too low.`;
-        } else if (errorMessage.includes('Insufficient CreditToken balance to qualify')) {
-             errorMessage = `Transaction failed: You need at least 100 CreditTokens to qualify for the first transaction.`;
-        } else if (errorMessage.includes('unsupported addressable value')) {
-             errorMessage = 'Configuration Error: LotTrackr contract address or CreditToken address is missing or invalid.';
-        }
-
-        setMessage(`Transaction failed: ${errorMessage}`);
+      if (receipt.status === 1) {
+        if (setMessage) setMessage(`🎉 Mission "${missionData.name}" deployed successfully on Hedera!`);
+        fetchAllowance();
+      } else {
+        if (setMessage) setMessage('❌ Transaction reverted on-chain.');
+      }
+    } catch (err) {
+      console.error('Mission deployment error:', err);
+      const errorMsg = err.reason || (err.data && err.data.message) || err.message || 'Deployment failed.';
+      if (setMessage) setMessage(`Deployment error: ${errorMsg}`);
     } finally {
-        setIsSubmitting(false);
-        setNewProductData({
-            name: '', manufacturer: '', manufactureDate: '', 
-            initialLocation: '', metadataURI: ''
-        });
-        if (activeSection === 'devis') setDevisView('buttons'); 
+      setIsDeploying(false);
     }
-};
-    
-    // --- The rest of your component code remains largely the same ---
+  };
 
-    const handleCheckProductSubmit = async (e) => {
-        e.preventDefault();
-        
-        if (!contract) {
-            setMessage("Error: Contract not initialized. Please connect your wallet first.");
-            return;
-        }
+  // --- Check Task by ID (contract.pull) ---
+  const handleCheckTask = async (e) => {
+    e.preventDefault();
+    if (!contract) {
+      if (setMessage) setMessage('Contract not initialized. Connect wallet.');
+      return;
+    }
 
-        const tokenId = checkProductId.trim();
-        if (!/^\d+$/.test(tokenId)) {
-            setMessage("Error: Lot ID must be a number.");
-            setCheckedProductResult(null);
-            return;
-        }
-        
-        setIsChecking(true);
-        setCheckedProductResult(null); 
-        setMessage(`Fetching details for Lot ID ${tokenId}...`);
+    const id = checkTaskId.trim();
+    if (!/^\d+$/.test(id)) {
+      if (setMessage) setMessage('Please enter a valid numeric Task ID.');
+      return;
+    }
 
-        try {
-            // 'pull' is a view function, no fee needed
-            const [lotStruct, historyArray] = await contract.pull(ethers.toBigInt(tokenId));
+    setIsChecking(true);
+    setTaskResult(null);
+    if (setMessage) setMessage(`Querying Hedera consensus for Task ID #${id}...`);
 
-            const result = {
-                lotId: lotStruct.lotId.toString(),
-                name: lotStruct.name,
-                currentHandler: lotStruct.currentHandler,
-                manufacturer: lotStruct.manufacturer,
-                // Assuming manufactureDate is a Unix timestamp in seconds
-                manufactureDate: Number(lotStruct.manufactureDate) * 1000, 
-                currentOwner: lotStruct.currentOwner,
-                currentLocation: lotStruct.currentLocation,
-                status: lotStruct.status.toString(),
-                history: historyArray,
-            };
+    try {
+      const [taskStruct, historyArray] = await contract.pull(BigInt(id));
 
-            setMessage(`✅ Lot ID ${tokenId} data successfully retrieved.`);
-            setCheckedProductResult(result);
-        } catch (error) {
-            console.error("Error checking product:", error);
-            setMessage(`Error fetching Lot ID ${tokenId}. It may not exist or the transaction failed.`);
-            setCheckedProductResult({ status: 'Product Not Found', lotId: tokenId });
-        } finally {
-            setIsChecking(false);
-        }
-    };
+      const statusNames = { '0': 'Active Running', '1': 'Completed Verified', '2': 'Transferred', '3': 'Terminated' };
 
+      setTaskResult({
+        taskId: taskStruct.lotId.toString(),
+        name: taskStruct.name,
+        handler: taskStruct.currentHandler,
+        executorType: taskStruct.manufacturer,
+        manufactureDate: Number(taskStruct.manufactureDate) * 1000,
+        owner: taskStruct.currentOwner,
+        location: taskStruct.currentLocation,
+        status: statusNames[taskStruct.status.toString()] || 'Unknown',
+        metadataURI: taskStruct.metadataURI,
+        history: historyArray,
+      });
 
-    // --- Render Helper Functions (Preserved) ---
-    
-    const renderAddDevisForm = () => (
-        <form onSubmit={handleAddProductSubmit} className="devis-form">
-            <h3>Add New Product (Lot/Devis)</h3>
-            
-            {/* Display Fee Recipient for Debugging */}
-            <blockquote className="debug-note">
-                <p><strong>Fee Recipient (Contract):</strong> {feeRecipient}</p>
-                <p><strong>Credit Token (Contract):</strong> {contractCreditTokenAddress}</p>
-                {feeRecipient === ethers.ZeroAddress ? (
-                    <p style={{color: 'red'}}>⚠️ CRITICAL: The contract Fee Recipient is 0x0. The 'Fee transfer failed' error will persist until the contract is redeployed with a valid address.</p>
-                ) : null}
-            </blockquote>
-            
-            {Object.keys(newProductData).map(key => (
-                <div key={key} className="form-group">
-                    <label htmlFor={key}>{formatKey(key)}:</label>
-                    <input
-                        id={key}
-                        type={key === 'manufactureDate' ? 'date' : 'text'} 
-                        required
-                        placeholder={key === 'initialLocation' ? 'e.g., Factory Floor A' : ''}
-                        value={newProductData[key]}
-                        onChange={(e) => setNewProductData(prev => ({ ...prev, [key]: e.target.value }))}
-                        className="form-input"
-                        disabled={isSubmitting} 
-                    />
+      if (setMessage) setMessage(`✅ Task #${id} records retrieved successfully.`);
+    } catch (err) {
+      console.error('Task check error:', err);
+      if (setMessage) setMessage(`Error fetching Task #${id}. It may not exist on-chain.`);
+      setTaskResult({ notFound: true, taskId: id });
+    } finally {
+      setIsChecking(false);
+    }
+  };
+
+  // --- Claim Testnet Faucet Credits ---
+  const handleClaimFaucet = async () => {
+    if (!authContract || !signer) {
+      if (setMessage) setMessage('UserAuth contract not connected.');
+      return;
+    }
+    setIsFauceting(true);
+    try {
+      if (setMessage) setMessage('Requesting 100 CreditTokens from Hedera faucet...');
+      const tx = await authContract.requestCredits(100);
+      await tx.wait();
+      if (setMessage) setMessage('🎁 100 Test Credits successfully claimed!');
+
+      // Update local state
+      const currentCredits = Number(userData?.credits || 0) + 100;
+      setUserData({ ...userData, credits: currentCredits.toString() });
+    } catch (err) {
+      console.error('Faucet claim error:', err);
+      if (setMessage) setMessage(`Faucet claim error: ${err.reason || err.message}`);
+    } finally {
+      setIsFauceting(false);
+    }
+  };
+
+  const formatAddr = (addr) => {
+    if (!addr) return 'N/A';
+    return `${addr.substring(0, 6)}...${addr.substring(addr.length - 4)}`;
+  };
+
+  return (
+    <div className="dashboard-layout-root">
+      {/* SIDEBAR NAVIGATION */}
+      <aside className={`dashboard-sidebar ${isSidebarOpen ? 'open' : 'collapsed'}`}>
+        <div className="sidebar-top">
+          <div className="sidebar-brand">
+            <div className="logo-badge">⚡</div>
+            {isSidebarOpen && (
+              <div className="brand-text">
+                <span className="brand-title">Open<span className="brand-accent">Rent</span></span>
+                <span className="network-subtext">CLIENT CONSOLE</span>
+              </div>
+            )}
+          </div>
+          <button
+            className="sidebar-toggle-btn"
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            title="Toggle Sidebar"
+          >
+            {isSidebarOpen ? '◀' : '▶'}
+          </button>
+        </div>
+
+        <nav className="sidebar-nav">
+          <button
+            className={`sidebar-nav-item ${activeSection === 'overview' ? 'active' : ''}`}
+            onClick={() => setActiveSection('overview')}
+          >
+            <span className="nav-icon">📊</span>
+            {isSidebarOpen && <span>Overview</span>}
+          </button>
+
+          <button
+            className={`sidebar-nav-item ${activeSection === 'deploy' ? 'active' : ''}`}
+            onClick={() => setActiveSection('deploy')}
+          >
+            <span className="nav-icon">🚀</span>
+            {isSidebarOpen && <span>Deploy Mission</span>}
+          </button>
+
+          <button
+            className={`sidebar-nav-item ${activeSection === 'explorer' ? 'active' : ''}`}
+            onClick={() => setActiveSection('explorer')}
+          >
+            <span className="nav-icon">🔍</span>
+            {isSidebarOpen && <span>Task Explorer</span>}
+          </button>
+
+          <button
+            className={`sidebar-nav-item ${activeSection === 'wallet' ? 'active' : ''}`}
+            onClick={() => setActiveSection('wallet')}
+          >
+            <span className="nav-icon">💎</span>
+            {isSidebarOpen && <span>Credit Wallet</span>}
+          </button>
+
+          <button
+            className={`sidebar-nav-item ${activeSection === 'settings' ? 'active' : ''}`}
+            onClick={() => setActiveSection('settings')}
+          >
+            <span className="nav-icon">⚙️</span>
+            {isSidebarOpen && <span>Settings</span>}
+          </button>
+        </nav>
+
+        <div className="sidebar-footer">
+          <button onClick={() => navigate('/')} className="sidebar-footer-btn back-site-btn">
+            <span>🌐</span>
+            {isSidebarOpen && <span>Back to Website</span>}
+          </button>
+          <button onClick={handleLogout} className="sidebar-footer-btn logout-btn">
+            <span>🚪</span>
+            {isSidebarOpen && <span>Disconnect Wallet</span>}
+          </button>
+        </div>
+      </aside>
+
+      {/* MAIN DASHBOARD CONTENT */}
+      <div className="dashboard-main-area">
+        {/* Top Header Bar */}
+        <header className="dashboard-topbar">
+          <div className="topbar-left">
+            <h2>
+              {activeSection === 'overview' && 'Mission Telemetry & Overview'}
+              {activeSection === 'deploy' && 'Deploy Autonomous Agent / Specialist'}
+              {activeSection === 'explorer' && 'Hedera On-Chain Task Explorer'}
+              {activeSection === 'wallet' && 'CreditToken Wallet & Smart Escrow'}
+              {activeSection === 'settings' && 'Account & Node Settings'}
+            </h2>
+          </div>
+
+          <div className="topbar-right">
+            <div className="topbar-credit-pill">
+              <span className="pill-label">Credits:</span>
+              <span className="pill-val font-mono">{userData?.credits || '0'} CT</span>
+            </div>
+
+            <div className="topbar-wallet-pill" onClick={() => copyToClipboard(signer?.address || '')} title="Click to copy address">
+              <span className="badge-dot pulse-dot" />
+              <span className="font-mono">{formatAddr(signer?.address)}</span>
+            </div>
+          </div>
+        </header>
+
+        {/* Global Banner for Messages */}
+        {message && (
+          <div className="dashboard-banner-container">
+            <div className={`alert-banner ${message.includes('✅') || message.includes('🎉') || message.includes('🎁') ? 'alert-success' : message.includes('❌') || message.includes('Error') ? 'alert-error' : 'alert-info'} animate-fade-in`}>
+              <span>ℹ️</span>
+              <div>{message}</div>
+            </div>
+          </div>
+        )}
+
+        {/* Content Body */}
+        <div className="dashboard-content-body">
+          {/* 1. OVERVIEW SECTION */}
+          {activeSection === 'overview' && (
+            <div className="overview-view animate-fade-in">
+              <div className="grid-4 stats-metrics-grid">
+                <div className="glass-card metric-card">
+                  <span className="metric-icon">💎</span>
+                  <div className="metric-info">
+                    <span className="metric-label">Available Balance</span>
+                    <span className="metric-value font-mono">{userData?.credits || '0'} CT</span>
+                  </div>
                 </div>
-            ))}
-            
-            <button 
-                type="submit" 
-                className="btn-primary" 
-                disabled={isSubmitting}
-            >
-                {isSubmitting ? 'Submitting Transaction...' : `Submit Devis (Cost: 1 CreditToken + HBAR)`}
-            </button>
-            <button 
-                type="button" 
-                className="btn-secondary" 
-                onClick={() => setDevisView('buttons')}
-                disabled={isSubmitting}
-            >
-                Back to Options
-            </button>
-        </form>
-    );
 
-    const renderCheckDevisForm = () => (
-        <div className="devis-check-view">
-            <form onSubmit={handleCheckProductSubmit} className="check-form">
-                <div className="form-group-inline">
-                    <label htmlFor="checkId">Enter Lot ID:</label>
+                <div className="glass-card metric-card">
+                  <span className="metric-icon">⚡</span>
+                  <div className="metric-info">
+                    <span className="metric-label">Hedera Finality</span>
+                    <span className="metric-value font-mono">&lt; 2.5s</span>
+                  </div>
+                </div>
+
+                <div className="glass-card metric-card">
+                  <span className="metric-icon">🤖</span>
+                  <div className="metric-info">
+                    <span className="metric-label">Active Sandbox Fleet</span>
+                    <span className="metric-value font-mono">100% Online</span>
+                  </div>
+                </div>
+
+                <div className="glass-card metric-card">
+                  <span className="metric-icon">📜</span>
+                  <div className="metric-info">
+                    <span className="metric-label">Consensus Protocol</span>
+                    <span className="metric-value font-mono">aBFT EVM</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Identity & Details Card */}
+              <div className="grid-2 overview-details-grid">
+                <div className="glass-card details-card">
+                  <h3>Sovereign Account Telemetry</h3>
+                  <div className="detail-rows">
+                    <div className="detail-row">
+                      <span className="row-key">Username:</span>
+                      <span className="row-val">{userData?.username || 'Specialist'}</span>
+                    </div>
+                    <div className="detail-row">
+                      <span className="row-key">Email Hash Bound:</span>
+                      <span className="row-val">{userData?.email || 'N/A'}</span>
+                    </div>
+                    <div className="detail-row">
+                      <span className="row-key">EVM Public Key:</span>
+                      <span className="row-val font-mono copyable" onClick={() => copyToClipboard(signer?.address || '')}>
+                        {signer?.address || 'N/A'} 📋
+                      </span>
+                    </div>
+                    <div className="detail-row">
+                      <span className="row-key">Registration Epoch:</span>
+                      <span className="row-val font-mono">
+                        {userData?.creationTime ? new Date(Number(userData.creationTime) * 1000).toLocaleString() : 'Active'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="glass-card details-card highlight">
+                  <h3>Smart Escrow Telemetry</h3>
+                  <div className="detail-rows">
+                    <div className="detail-row">
+                      <span className="row-key">Network:</span>
+                      <span className="row-val badge badge-emerald font-mono">Hedera Testnet (296)</span>
+                    </div>
+                    <div className="detail-row">
+                      <span className="row-key">LotTracker Registry:</span>
+                      <span className="row-val font-mono">{formatAddr(CONTRACT_ADDRESSES.LOT_TRACKER)}</span>
+                    </div>
+                    <div className="detail-row">
+                      <span className="row-key">CreditToken Contract:</span>
+                      <span className="row-val font-mono">{formatAddr(CONTRACT_ADDRESSES.CREDIT_TOKEN)}</span>
+                    </div>
+                    <div className="detail-row">
+                      <span className="row-key">Current Allowance:</span>
+                      <span className="row-val font-mono text-emerald">{currentAllowance} CT Approved</span>
+                    </div>
+                  </div>
+
+                  <div className="overview-card-actions">
+                    <button onClick={() => setActiveSection('deploy')} className="btn btn-primary btn-sm">
+                      Deploy New Mission 🚀
+                    </button>
+                    <button onClick={handleClaimFaucet} disabled={isFauceting} className="btn btn-outline btn-sm">
+                      {isFauceting ? 'Claiming...' : 'Claim Faucet Credits 🎁'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* 2. DEPLOY MISSION SECTION */}
+          {activeSection === 'deploy' && (
+            <div className="deploy-view animate-fade-in">
+              <div className="glass-card deploy-form-card">
+                <div className="deploy-card-header">
+                  <h3>Configure & Dispatch Workforce Mission</h3>
+                  <p>Deploys a verified task instance via the on-chain smart contract with automatic token approval.</p>
+                </div>
+
+                <form onSubmit={handleDeployMission} className="deploy-form">
+                  <div className="form-group">
+                    <label className="form-label">Mission / Task Title</label>
                     <input
-                        id="checkId"
+                      type="text"
+                      required
+                      placeholder="e.g. Distributed E-Commerce Price Monitor"
+                      value={missionData.name}
+                      onChange={(e) => setMissionData({ ...missionData, name: e.target.value })}
+                      className="form-input"
+                      disabled={isDeploying}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Workforce / Agent Type</label>
+                    <select
+                      value={missionData.executorType}
+                      onChange={(e) => setMissionData({ ...missionData, executorType: e.target.value })}
+                      className="form-select"
+                      disabled={isDeploying}
+                    >
+                      <option value="Puppeteer-Headless-Node-v2">Puppeteer Headless Worker (Basic - 5 CT/hr)</option>
+                      <option value="Selenium-Chromium-Grid">Selenium Multi-Browser Grid (Intermediate - 12 CT/hr)</option>
+                      <option value="LLM-Reasoning-Swarm">Autonomous LLM Reasoning Swarm (Advanced - 25 CT/hr)</option>
+                      <option value="Senior-Contract-Auditor">Senior Human Smart Contract Auditor (Expert - 75 CT/hr)</option>
+                    </select>
+                  </div>
+
+                  <div className="grid-2">
+                    <div className="form-group">
+                      <label className="form-label">Execution Target Date</label>
+                      <input
+                        type="date"
+                        required
+                        value={missionData.date}
+                        onChange={(e) => setMissionData({ ...missionData, date: e.target.value })}
+                        className="form-input"
+                        disabled={isDeploying}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Compute Sandbox Cluster</label>
+                      <input
                         type="text"
                         required
-                        value={checkProductId}
-                        onChange={(e) => {
-                            setCheckProductId(e.target.value);
-                            setCheckedProductResult(null); 
-                        }}
+                        value={missionData.location}
+                        onChange={(e) => setMissionData({ ...missionData, location: e.target.value })}
                         className="form-input"
-                        placeholder="e.g., 123 (Lot ID)"
-                        disabled={isChecking}
+                        disabled={isDeploying}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Metadata URI / Payload Spec (IPFS or Hash)</label>
+                    <input
+                      type="text"
+                      required
+                      value={missionData.metadataURI}
+                      onChange={(e) => setMissionData({ ...missionData, metadataURI: e.target.value })}
+                      className="form-input font-mono"
+                      disabled={isDeploying}
                     />
-                    <button type="submit" className="btn-check-submit" disabled={isChecking}>
-                        {isChecking ? 'Checking...' : 'Check Devis (Call Pull)'}
+                  </div>
+
+                  <div className="escrow-summary-box">
+                    <div className="escrow-rate">
+                      <span>Deployment Fee:</span>
+                      <strong className="font-mono text-emerald">1 CreditToken (CT)</strong>
+                    </div>
+                    <div className="escrow-notice">
+                      * Tokens are held in smart contract escrow and settled upon verified completion on Hedera.
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isDeploying || !signer}
+                    className="btn btn-primary btn-lg full-width"
+                  >
+                    {isDeploying ? 'Dispatching to Hedera EVM...' : 'Confirm & Deploy On-Chain ⚡'}
+                  </button>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {/* 3. TASK EXPLORER SECTION */}
+          {activeSection === 'explorer' && (
+            <div className="explorer-view animate-fade-in">
+              <div className="glass-card explorer-search-card">
+                <h3>Lookup Immutable Task Proof</h3>
+                <p>Query Hedera Hashgraph smart contract records by Task ID (`pull` view function).</p>
+
+                <form onSubmit={handleCheckTask} className="explorer-search-form">
+                  <input
+                    type="text"
+                    required
+                    placeholder="Enter numeric Task ID (e.g. 1)"
+                    value={checkTaskId}
+                    onChange={(e) => setCheckTaskId(e.target.value)}
+                    className="form-input font-mono"
+                    disabled={isChecking}
+                  />
+                  <button type="submit" disabled={isChecking} className="btn btn-primary">
+                    {isChecking ? 'Querying...' : 'Fetch Record 🔍'}
+                  </button>
+                </form>
+              </div>
+
+              {taskResult && (
+                <div className="task-result-container animate-fade-in">
+                  {taskResult.notFound ? (
+                    <div className="glass-card result-not-found">
+                      <h4>Task #{taskResult.taskId} Not Found</h4>
+                      <p>No verified record exists with this ID on the current LotTracker contract.</p>
+                    </div>
+                  ) : (
+                    <div className="glass-card task-proof-card highlight">
+                      <div className="proof-header">
+                        <div>
+                          <span className="badge badge-emerald font-mono">STATUS: {taskResult.status}</span>
+                          <h3>Task #{taskResult.taskId}: {taskResult.name}</h3>
+                        </div>
+                        <span className="font-mono text-muted">{new Date(taskResult.manufactureDate).toLocaleDateString()}</span>
+                      </div>
+
+                      <div className="proof-grid">
+                        <div className="proof-item">
+                          <span className="proof-key">Executor / Worker Type:</span>
+                          <span className="proof-val">{taskResult.executorType}</span>
+                        </div>
+                        <div className="proof-item">
+                          <span className="proof-key">Assigned Sandbox Node:</span>
+                          <span className="proof-val font-mono">{taskResult.location}</span>
+                        </div>
+                        <div className="proof-item">
+                          <span className="proof-key">Current Handler Address:</span>
+                          <span className="proof-val font-mono copyable" onClick={() => copyToClipboard(taskResult.handler)}>
+                            {taskResult.handler} 📋
+                          </span>
+                        </div>
+                        <div className="proof-item">
+                          <span className="proof-key">Owner Address:</span>
+                          <span className="proof-val font-mono copyable" onClick={() => copyToClipboard(taskResult.owner)}>
+                            {taskResult.owner} 📋
+                          </span>
+                        </div>
+                        <div className="proof-item full-span">
+                          <span className="proof-key">Metadata Payload URI:</span>
+                          <span className="proof-val font-mono text-cyan">{taskResult.metadataURI}</span>
+                        </div>
+                      </div>
+
+                      {taskResult.history && taskResult.history.length > 0 && (
+                        <div className="proof-history-section">
+                          <h5>On-Chain Custody History</h5>
+                          <div className="history-timeline">
+                            {taskResult.history.map((addr, idx) => (
+                              <div key={idx} className="history-node font-mono">
+                                <span>Epoch {idx + 1}:</span>
+                                <code>{addr}</code>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* 4. CREDIT WALLET SECTION */}
+          {activeSection === 'wallet' && (
+            <div className="wallet-view animate-fade-in">
+              <div className="grid-2 wallet-cards-grid">
+                <div className="glass-card wallet-card highlight">
+                  <div className="wallet-card-top">
+                    <h3>CreditToken (CT) Balance</h3>
+                    <span className="badge badge-emerald font-mono">ERC-20</span>
+                  </div>
+                  <div className="wallet-balance-display">
+                    <span className="balance-num font-mono">{userData?.credits || '0'}</span>
+                    <span className="balance-symbol">CT</span>
+                  </div>
+                  <p className="wallet-desc">Utility tokens used for settling automated tasks and renting specialists.</p>
+                  <button
+                    onClick={handleClaimFaucet}
+                    disabled={isFauceting}
+                    className="btn btn-primary full-width"
+                  >
+                    {isFauceting ? 'Claiming 100 CT...' : 'Request 100 Free Testnet Tokens 🎁'}
+                  </button>
+                </div>
+
+                <div className="glass-card wallet-card">
+                  <div className="wallet-card-top">
+                    <h3>Smart Escrow Allowance</h3>
+                    <span className="badge badge-cyan font-mono">Active</span>
+                  </div>
+                  <div className="wallet-balance-display">
+                    <span className="balance-num font-mono">{currentAllowance}</span>
+                    <span className="balance-symbol">CT Approved</span>
+                  </div>
+                  <p className="wallet-desc">Permits the LotTracker smart contract to escrow fees when deploying tasks.</p>
+                  <button
+                    onClick={async () => {
+                      if (creditTokenContract && contract) {
+                        try {
+                          setIsApproving(true);
+                          const lotAddress = await contract.getAddress();
+                          const tx = await creditTokenContract.approve(lotAddress, parseUnits('1000', 18));
+                          await tx.wait();
+                          fetchAllowance();
+                          if (setMessage) setMessage('✅ 1,000 CT allowance approved successfully!');
+                        } catch (err) {
+                          if (setMessage) setMessage(`Approval error: ${err.message}`);
+                        } finally {
+                          setIsApproving(false);
+                        }
+                      }
+                    }}
+                    disabled={isApproving}
+                    className="btn btn-outline full-width"
+                  >
+                    {isApproving ? 'Approving...' : 'Re-Approve 1,000 CT Allowance 🛡️'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* 5. SETTINGS SECTION */}
+          {activeSection === 'settings' && (
+            <div className="settings-view animate-fade-in">
+              <div className="glass-card settings-card">
+                <h3>Console Preferences & Session</h3>
+                <div className="settings-list">
+                  <div className="settings-item">
+                    <div>
+                      <h5>Hedera RPC Provider</h5>
+                      <p className="font-mono text-muted">https://testnet.hashio.io/api</p>
+                    </div>
+                    <span className="badge badge-emerald font-mono">CONNECTED</span>
+                  </div>
+
+                  <div className="settings-item">
+                    <div>
+                      <h5>Smart Contract Verification Hash</h5>
+                      <p className="font-mono text-muted">0xdbc22b309b0c46e43c08d39c7f8acf119e091651</p>
+                    </div>
+                    <span className="badge badge-cyan font-mono">VERIFIED</span>
+                  </div>
+
+                  <div className="settings-item">
+                    <div>
+                      <h5>Local Session Storage</h5>
+                      <p>Persists user authentication state locally in browser.</p>
+                    </div>
+                    <button onClick={handleLogout} className="btn btn-outline btn-sm">
+                      Clear Session Cache
                     </button>
+                  </div>
                 </div>
-            </form>
-
-            {checkedProductResult && (
-                <div className="product-result">
-                    <h4>Product Details for Lot ID: {checkedProductResult.lotId}</h4>
-                    {checkedProductResult.status === 'Product Not Found' || !checkedProductResult.name ? (
-                        <p className="not-found">Status: {checkedProductResult.status}</p>
-                    ) : (
-                        <div className="dashboard-widget">
-                            {Object.entries(checkedProductResult)
-                                .filter(([key]) => key !== 'history' && key !== 'status')
-                                .map(([key, value]) => (
-                                    <p key={key}>
-                                        <strong>{formatKey(key)}:</strong> 
-                                        {key === 'manufactureDate' ? new Date(Number(value)).toLocaleString() : value}
-                                    </p>
-                                ))}
-                            
-                            <p><strong>{formatKey('status')}:</strong> {checkedProductResult.status}</p>
-                            
-                            <hr/>
-                            <h5>Ownership History:</h5>
-                            {checkedProductResult.history && checkedProductResult.history.length > 0 ? (
-                                <ol>
-                                    {checkedProductResult.history.map((address, index) => (
-                                        <li key={index}>{address}</li>
-                                    ))}
-                                </ol>
-                            ) : (<p>No history recorded yet.</p>)}
-                        </div>
-                    )}
-                </div>
-            )}
-            
-            <button 
-                type="button" 
-                className="btn-secondary" 
-                onClick={() => {
-                    setDevisView('buttons');
-                    setCheckProductId('');
-                    setCheckedProductResult(null);
-                }}
-                disabled={isChecking}
-            >
-                Back to Options
-            </button>
+              </div>
+            </div>
+          )}
         </div>
-    );
-
-    // --- Main Content Renderer (All Cases Included) ---
-
-    const renderContent = () => {
-        
-        // 🚨 CRITICAL CONDITIONAL RENDER: Block access if the wallet is not connected.
-        // This waits for the 'signer' and 'contract' props from App.jsx to be ready.
-        if (!signer || !contract || !userData?.address) {
-             return (
-                 <div className="connection-required">
-                     <h2>Reconnecting Wallet...</h2>
-                     <p>Restoring your session and connecting to the Hedera Testnet. Please wait...</p>
-                     <p style={{marginTop: '15px', color: '#888'}}>
-                         *If this persists, please return to the Demo page and connect manually.
-                     </p>
-                     <button className="btn-primary" onClick={() => navigate('/Demo')}>
-                         Go to Connect Page
-                     </button>
-                 </div>
-             );
-        }
-        
-        // If signer is present, render the selected section
-        switch (activeSection) {
-            case 'dashboard':
-                return (
-                    <div className="dashboard-content">
-                        <h2>Your User Data</h2>
-                        <div className="dashboard-widget">
-                            <p><strong>Username:</strong> {userData?.username || 'N/A'}</p>
-                            <p><strong>Email:</strong> {userData?.email || 'N/A'}</p>
-                            <p><strong>Current Address:</strong> {signer.address}</p>
-                            <p><strong>Available Credits:</strong> {userData?.credits || '0'}</p>
-                            <p>
-                                <strong>Creation Time : </strong> 
-                                {userData?.creationTime ? new Date(Number(userData.creationTime) * 1000).toLocaleString() : 'N/A'}
-                            </p>
-                        </div>
-                    </div>
-                );
-            case 'users':
-                return (
-                    <section className='Dashboard-users'>
-                        <h2>User Management Section</h2>
-                        <div className="dashboard-widget">
-                            <p>This section is reserved for listing and managing registered users, typically accessible by an administrator.</p>
-                            <ul>
-                                <li>View user list (placeholder)</li>
-                                <li>Update user roles (placeholder)</li>
-                                <li>Search users by address (placeholder)</li>
-                            </ul>
-                        </div>
-                    </section>
-                );
-
-            case 'devis':
-                return (
-                    <section className='Dashboard-devis'>
-                        <h2>Devis Management</h2>
-                        <p>Manage product additions and track existing products on the chain.</p>
-                        
-                        {devisView === 'buttons' && (
-                            <div className="devis-container-btns">
-                                <button 
-                                    className='btn-add-devise' 
-                                    onClick={() => setDevisView('add')}
-                                >
-                                    Add New Product
-                                </button>
-                                <button 
-                                    className='btn-check-devise' 
-                                    onClick={() => setDevisView('check')}
-                                >
-                                    Check Product Status
-                                </button>
-                            </div>
-                        )}
-
-                        {devisView === 'add' && renderAddDevisForm()}
-                        {devisView === 'check' && renderCheckDevisForm()}
-
-                    </section>
-                ); 
-            case 'settings':
-                return (
-                    <section className='Dashboard-settings'>
-                        <h2>Account Settings</h2>
-                        <div className="dashboard-widget">
-                            <p>This section will contain user-specific settings:</p>
-                            <ul>
-                                <li>Change Username/Email (Local State Update)</li>
-                                <li>Update Metadata URI (Placeholder)</li>
-                                <li>View Transaction History (Placeholder)</li>
-                            </ul>
-                        </div>
-                    </section>
-                );
-            default:
-                return null;
-        }
-    };
-
-    // --- Main Component Structure ---
-
-    return (
-        <div className="dashboard-container">
-            <div className={`sidebar ${isSidebarOpen ? '' : 'closed'}`}>
-                <div className="sidebar-header">
-                    <span className="sidebar-title">Dashboard</span>
-                     <button onClick={toggleSidebar} className="close-btn">
-            {isSidebarOpen ? (<p className='closetoggle-sideBar'>x</p>
-            ) : (<img src={toggleSideBar} alt="Open" className='toggle-sideBar' />)}
-        </button>
-                </div>
-                <ul className="sidebar-links">
-                    <li><a href="#" className={`sidebar-link ${activeSection === 'dashboard' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setActiveSection('dashboard'); }}>Dashboard</a></li>
-                    <li><a href="#" className={`sidebar-link ${activeSection === 'users' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setActiveSection('users'); }}>Users</a></li>
-                    <li><a href="#" className={`sidebar-link ${activeSection === 'devis' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setActiveSection('devis'); setDevisView('buttons'); }}>Devis</a></li>
-                    <li><a href="#" className={`sidebar-link ${activeSection === 'settings' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setActiveSection('settings'); }}>Settings</a></li>
-                </ul>
-            </div>
-
-            <div className={`main-content ${isSidebarOpen ? '' : 'full-width'}`}>
-                <header className="dashboard-header">
-                    <div className="header-left">
-                        <h1>Welcome{userData?.username ? ` back, ${userData.username}` : ''}</h1> 
-                    </div>
-                    <div className="header-right">
-                        <button className="header-btn">Notifications</button>
-                        {/* <button className="header-btn">Profile</button> */}
-                        <button 
-                    className="header-btn" 
-                    onClick={() => setActiveSection('dashboard')} // Link Profile button to Dashboard section
-                >
-                    Profile
-                </button>
-                        
-                    </div>
-                </header>
-
-                <main className="dashboard-body">
-                    {renderContent()} {/* Main content rendered here */}
-                </main>
-
-                <footer className="dashboard-footer">
-                    <p>&copy; 2025 PharmaExpert. All rights reserved.</p>
-                </footer>
-            </div>
-
-            <div className="back-to-website">
-                <button className="back-btn logout-btn" onClick={handleLogout}>
-                    Logout 🚪
-                </button>
-                <button className="back-btn" onClick={() => navigate('/')}> 
-                    Back to Website 
-                </button>
-            </div>
-        </div>
-    );
+      </div>
+    </div>
+  );
 }
-
-export default Dashboard;
-
-
